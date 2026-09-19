@@ -1,0 +1,1154 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentoria: Transformar o WhatsApp numa Máquina de Vendas</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. VARIÁVEIS GLÓBAIS & PALETA DE CORES (DESIGN SYSTEM)
+           ========================================================================== */
+        :root {
+            --bg-dark: #0A0D0E;
+            --bg-card: rgba(18, 26, 27, 0.65);
+            --bg-card-hover: rgba(26, 38, 40, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(37, 211, 102, 0.4);
+            
+            --emerald-primary: #25D366;
+            --emerald-deep: #075E54;
+            --emerald-dark: #042E2A;
+            --emerald-glow: rgba(37, 211, 102, 0.15);
+            
+            --text-main: #F2F5F4;
+            --text-muted: #94A3A1;
+            --text-dark: #0A0D0E;
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: radial-gradient(circle at 50% 0%, #0A2421 0%, #0A0D0E 70%);
+            background-attachment: fixed;
+            line-height: 1.6;
+            padding: 0 16px;
+        }
+
+        /* Container Limitador */
+        .app-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0 80px 0;
+        }
+
+        /* Ambient Glow Background Effect */
+        .glow-effect {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--emerald-glow) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        /* UI Utilities */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            border-radius: var(--radius-full);
+            color: var(--emerald-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--emerald-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--emerald-primary);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 20px 32px;
+            background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 18px 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 36px 28px;
+            margin-bottom: 24px;
+        }
+
+        /* ==========================================================================
+           3. ESTRUTURA DAS SEÇÕES & TRANSIÇÕES DE ESTADO
+           ========================================================================== */
+        .view-step {
+            display: none;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .view-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* HEADER BRAND */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 48px;
+        }
+
+        header .logo-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--emerald-primary), var(--emerald-deep));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header span {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        /* SECTION: HERO / INTRO */
+        #step-intro {
+            text-align: center;
+        }
+
+        #step-intro h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #B0BEC5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #step-intro p.lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chat-preview-box {
+            background: rgba(10, 13, 14, 0.8);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 36px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-bubble {
+            background: var(--emerald-dark);
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            padding: 12px 16px;
+            border-radius: 12px 12px 2px 12px;
+            max-width: 85%;
+            margin-left: auto;
+            font-size: 0.95rem;
+            color: #E2E8F0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .chat-bubble-in {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 12px 2px;
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        /* SECTION: QUIZ INTERATIVO */
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .quiz-progress-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--emerald-primary);
+            letter-spacing: 1px;
+        }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-bottom: 36px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            width: 20%;
+            background: var(--emerald-primary);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 12px var(--emerald-primary);
+        }
+
+        .quiz-question {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.3;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .quiz-option-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            padding: 20px 24px;
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quiz-option-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-active);
+            transform: translateX(4px);
+        }
+
+        .quiz-option-btn .opt-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--text-muted);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .quiz-option-btn:hover .opt-indicator {
+            border-color: var(--emerald-primary);
+            background: var(--emerald-glow);
+        }
+
+        /* SECTION: RESULTADO DO QUIZ */
+        .result-box {
+            text-align: center;
+        }
+
+        .result-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            color: #FFF;
+        }
+
+        .result-dynamic-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            background: rgba(37, 211, 102, 0.05);
+            border-left: 3px solid var(--emerald-primary);
+            padding: 20px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            text-align: left;
+            margin: 24px 0 36px 0;
+            line-height: 1.6;
+        }
+
+        /* FUNIL DE VENDAS VISUAL */
+        .funnel-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 32px 0;
+        }
+
+        .funnel-step {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .funnel-step.highlight {
+            background: rgba(37, 211, 102, 0.08);
+            border-color: rgba(37, 211, 102, 0.3);
+            color: var(--emerald-primary);
+        }
+
+        .funnel-arrow {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        /* SEÇÃO DE APRESENTAÇÃO DA MENTORIA */
+        .mentorship-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .mentorship-title h2 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #A7F3D0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .mentorship-title p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .grid-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .topic-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .topic-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--emerald-glow);
+            color: var(--emerald-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .topic-card span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #E2E8F0;
+        }
+
+        /* SEÇÃO: ESTRUTURA DA MENTORIA */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            padding: 20px;
+            border-radius: var(--radius-md);
+        }
+
+        .info-card .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .info-card .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* SEÇÃO: INVESTIMENTO */
+        .pricing-box {
+            background: linear-gradient(180deg, rgba(37, 211, 102, 0.05) 0%, rgba(18, 26, 27, 0.8) 100%);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 36px 28px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .pricing-list {
+            margin: 28px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .pricing-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-glass);
+            font-size: 0.95rem;
+        }
+
+        .pricing-item:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-total {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pricing-total span:first-child {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .pricing-total span:last-child {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--emerald-primary);
+        }
+
+        /* FAQ SECTION */
+        .faq-section {
+            margin-top: 48px;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 24px;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 24px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding-bottom: 20px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ACCESSIBILITY & REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-effect" id="glow"></div>
+
+    <div class="app-container">
+        
+        <!-- HEADER / BRANDING -->
+        <header>
+            <div class="logo-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+            </div>
+            <span>Diagnóstico Digital</span>
+        </header>
+
+        <!-- ==========================================================================
+           ETAPA 1: ABERTURA / INTRODUÇÃO
+           ========================================================================== -->
+        <section id="step-intro" class="view-step active">
+            <div class="badge">
+                <div class="badge-dot"></div>
+                Análise de Vendas Directas
+            </div>
+            
+            <h1>Antes de falar sobre a mentoria…</h1>
+            <p class="lead">vamos descobrir como estão as tuas vendas pelo WhatsApp.</p>
+
+            <div class="chat-preview-box">
+                <div class="chat-bubble chat-bubble-in">
+                    Olá! Qual é o valor do produto?
+                </div>
+                <div class="chat-bubble">
+                    Olá! Custa 1.500 MT.
+                </div>
+                <div class="chat-bubble chat-bubble-in" style="opacity: 0.6; font-style: italic;">
+                    Visto às 14:32 (Sem resposta...)
+                </div>
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px;">
+                Responde a 5 perguntas rápidas e descobre onde podes estar a perder oportunidades.
+            </p>
+
+            <button class="btn-primary" onclick="startQuiz()">
+                COMEÇAR O DIAGNÓSTICO →
+            </button>
+        </section>
+
+        <!-- ==========================================================================
+           ETAPA 2: QUIZ INTERATIVO
+           ========================================================================== -->
+        <section id="step-quiz" class="view-step">
+            <div class="glass-card">
+                <div class="quiz-header">
+                    <span class="quiz-progress-text" id="quiz-step-indicator">01 / 05</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">DIAGNÓSTICO EM ANDAMENTO</span>
+                </div>
+                
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                </div>
+
+                <div class="quiz-question" id="quiz-question-text">
+                    <!-- Pergunta carregada via JS -->
+                </div>
+
+                <div class="quiz-options" id="quiz-options-container">
+                    <!-- Opções carregadas via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+           ETAPA 3: RESULTADO E CONSCIÊNCIA
+           ========================================================================== -->
+        <section id="step-result" class="view-step">
+            <div class="glass-card result-box">
+                <div class="badge">
+                    <div class="badge-dot"></div>
+                    Diagnóstico Concluído
+                </div>
+
+                <h2>Agora ficou mais claro.</h2>
+
+                <div class="result-dynamic-text" id="result-text-target">
+                    <!-- Mensagem dinâmica injetada via JS -->
+                </div>
+
+                <p style="text-align: left; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px;">
+                    Para fechar vendas de forma consistente, a conversa precisa de seguir uma sequência estratégica contínua:
+                </p>
+
+                <!-- Funil Visual -->
+                <div class="funnel-container">
+                    <div class="funnel-step"><span>01. ABORDAGEM</span> <small>Início do contacto</small></div>
+                    <div class="funnel-arrow">↓</div>
+                    <div class="funnel-step"><span>02. CONVERSA</span> <small>Conexão inicial</small></div>
+                    <div class="funnel-arrow">↓</div>
+                    <div class="funnel-step highlight"><span>03. NECESSIDADE</span> <small>Entendimento real</small></div>
+                    <div class="funnel-arrow">↓</div>
+                    <div class="funnel-step"><span>04. OFERTA</span> <small>Apresentação de valor</small></div>
+                    <div class="funnel-arrow">↓</div>
+                    <div class="funnel-step highlight"><span>05. OBJEÇÃO</span> <small>Superação de dúvidas</small></div>
+                    <div class="funnel-arrow">↓</div>
+                    <div class="funnel-step"><span>06. FOLLOW-UP</span> <small>Acompanhamento</small></div>
+                    <div class="funnel-arrow">↓</div>
+                    <div class="funnel-step highlight"><span>07. VENDA</span> <small>Fechamento</small></div>
+                </div>
+
+                <p style="font-size: 1.1rem; font-weight: 700; color: #FFF; margin: 28px 0 36px 0;">
+                    É exatamente isso que trabalhamos na mentoria.
+                </p>
+
+                <button class="btn-primary" onclick="scrollToMentorship()">
+                    CONHECER A MENTORIA →
+                </button>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+           ETAPA 4: A MENTORIA & ESTRUTURA COMPLETA
+           ========================================================================== -->
+        <div id="mentorship-section" style="display: none;">
+            
+            <!-- APRESENTAÇÃO DA MENTORIA -->
+            <section class="glass-card">
+                <div class="mentorship-title">
+                    <div class="badge">
+                        <div class="badge-dot"></div>
+                        A Solução Estratégica
+                    </div>
+                    <h2>TRANSFORMAR O WHATSAPP<br>NUMA MÁQUINA DE VENDAS</h2>
+                    <p>Uma mentoria prática para quem já tem algo para vender e quer aprender a utilizar o WhatsApp de forma mais estratégica para vender.</p>
+                </div>
+
+                <h3 style="font-size: 1.1rem; margin-bottom: 20px; color: var(--emerald-primary);">O que será trabalhado:</h3>
+                
+                <div class="grid-topics">
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Abordagem de potenciais clientes</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Comunicação e conversa de vendas</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Psicologia aplicada às vendas</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Descoberta das necessidades do cliente</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Apresentação da oferta e do preço</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Tratamento de objeções</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Fechamento</span>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-icon">✓</div>
+                        <span>Follow-up</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ESTRUTURA DA MENTORIA -->
+            <section class="glass-card">
+                <h3 style="font-size: 1.2rem; margin-bottom: 20px;">Estrutura do Programa</h3>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="label">Duração Total</div>
+                        <div class="value">6 Semanas</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="label">Organização</div>
+                        <div class="value">2 Ciclos de 3 Semanas</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="label">Dias de Acompanhamento</div>
+                        <div class="value">Quintas, Sextas, Sábados e Domingos</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="label">Vagas Limitadas</div>
+                        <div class="value">Apenas 30 Vagas</div>
+                    </div>
+                </div>
+
+                <div class="info-card" style="width: 100%;">
+                    <div class="label">Formato</div>
+                    <div class="value" style="color: var(--text-muted); font-weight: 500;">A DEFINIR</div>
+                </div>
+            </section>
+
+            <!-- INVESTIMENTO -->
+            <section class="pricing-box">
+                <div class="badge" style="background: rgba(37, 211, 102, 0.15);">
+                    Investimento Transparente
+                </div>
+                
+                <h3 style="font-size: 1.5rem; color: #FFF; margin-bottom: 8px;">Valor do Acompanhamento</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Condições estruturadas por etapas</p>
+
+                <div class="pricing-list">
+                    <div class="pricing-item">
+                        <span>Inscrição</span>
+                        <strong>100 MT</strong>
+                    </div>
+                    <div class="pricing-item">
+                        <span>1.º Ciclo</span>
+                        <strong>269 MT</strong>
+                    </div>
+                    <div class="pricing-item">
+                        <span>2.º Ciclo</span>
+                        <strong>269 MT</strong>
+                    </div>
+                    <div class="pricing-total">
+                        <span>Investimento Total</span>
+                        <span>638 MT</span>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." class="btn-primary" target="_blank" rel="noopener noreferrer">
+                    QUERO FALAR NO WHATSAPP →
+                </a>
+                
+                <p class="helper-text">
+                    Não sabe onde clicar? Toque no botão acima e o WhatsApp abrirá para você enviar uma mensagem.
+                </p>
+            </section>
+
+            <!-- PERGUNTAS FREQUENTES (FAQ) -->
+            <section class="faq-section">
+                <h3 class="faq-title">Perguntas Frequentes</h3>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>O que é a mentoria?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        É um acompanhamento prático focado em ensinar a utilizar o WhatsApp de forma estratégica para conduzir conversas, contornar objeções e fechar mais vendas.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Para quem é?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Para quem já tem um produto ou serviço para vender e deseja transformar o WhatsApp num canal ativo e previsível de vendas.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quanto custa?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        O investimento total é de 638 MT, divididos em taxa de inscrição e dois ciclos de acompanhamento.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quanto é a inscrição?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        A inscrição inicial tem o valor de 100 MT para garantir a tua vaga entre as 30 disponíveis.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quanto tempo dura?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        A mentoria tem a duração total de 6 semanas, divididas em 2 ciclos práticos de 3 semanas cada.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quais são os dias?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        As actividades e acompanhamentos acontecem às quintas, sextas, sábados e domingos.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Qual é o formato?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        O formato exacto das sessões será formalmente comunicado aos participantes admitidos (A DEFINIR).
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Como faço para me inscrever?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Basta clicar no botão abaixo para iniciar o contacto directo via WhatsApp e confirmar a tua inscrição.
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA FINAL -->
+            <div style="margin-top: 48px; text-align: center;">
+                <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." class="btn-primary" target="_blank" rel="noopener noreferrer">
+                    QUERO FALAR NO WHATSAPP →
+                </a>
+                <p class="helper-text">
+                    Não sabe onde clicar? Toque no botão acima e o WhatsApp abrirá para você enviar uma mensagem.
+                </p>
+            </div>
+
+            <!-- FOOTER -->
+            <footer>
+                <p>© HN MENTORIAS      EM PARCERIA COM EDZYN OFC
+
+
+
+                </p>
+                <p style="margin-top: 6px; opacity: 0.6;">Todos os direitos reservados.</p>
+            </footer>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================================
+       5. JAVASCRIPT (LÓGICA DO QUIZ E INTERATIVIDADE)
+       ========================================================================== -->
+    <script>
+        // Dados das Perguntas do Quiz
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "Quando alguém demonstra interesse no teu produto, o que normalmente acontece?",
+                options: [
+                    { text: "Respondo rápido, mas a pessoa deixa de responder em seguida.", category: "drop" },
+                    { text: "Envio as informações completas, mas o contacto arrefece.", category: "info" },
+                    { text: "Consigo conversar, mas poucas pessoas chegam a comprar.", category: "close" }
+                ]
+            },
+            {
+                id: 2,
+                question: "Quando o cliente pergunta o preço, como costumas responder?",
+                options: [
+                    { text: "Digo o valor imediatamente e aguardo a resposta do cliente.", category: "price" },
+                    { text: "Tento explicar o valor do produto antes de falar o preço.", category: "value" },
+                    { text: "Envio uma tabela de preços ou texto longo já preparado.", category: "text" }
+                ]
+            },
+            {
+                id: 3,
+                question: "O que acontece quando o cliente diz ‘vou pensar’?",
+                options: [
+                    { text: "Agradeço e fico a aguardar que ele volte a mandar mensagem.", category: "wait" },
+                    { text: "Pergunto se ficou com alguma dúvida, mas raramente recebo resposta.", category: "doubt" },
+                    { text: "Não sei bem como continuar a conversa sem parecer chato.", category: "push" }
+                ]
+            },
+            {
+                id: 4,
+                question: "Qual é a tua maior dificuldade ao vender pelo WhatsApp?",
+                options: [
+                    { text: "Manter o cliente interessado e a responder ao longo do diálogo.", category: "engagement" },
+                    { text: "Conduzir a conversa até ao momento do pagamento final.", category: "closing" },
+                    { text: "Fazer o acompanhamento (follow-up) de quem não comprou de imediato.", category: "followup" }
+                ]
+            },
+            {
+                id: 5,
+                question: "O que mais gostarias de melhorar nas tuas vendas?",
+                options: [
+                    { text: "Ter um roteiro claro do que dizer em cada etapa do processo.", category: "script" },
+                    { text: "Saber responder com segurança às objeções dos clientes.", category: "objections" },
+                    { text: "Aumentar a taxa de conversão de quem entra em contacto.", category: "conversion" }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        // Inicialização do Quiz
+        function startQuiz() {
+            switchStep('step-intro', 'step-quiz');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const questionData = quizQuestions[currentQuestionIndex];
+            const totalQuestions = quizQuestions.length;
+            
+            // Atualizar Indicadores
+            document.getElementById('quiz-step-indicator').innerText = `0${currentQuestionIndex + 1} / 0${totalQuestions}`;
+            document.getElementById('quiz-progress-fill').style.width = `${((currentQuestionIndex + 1) / totalQuestions) * 100}%`;
+            
+            // Renderizar Texto
+            document.getElementById('quiz-question-text').innerText = questionData.question;
+            
+            // Renderizar Opções
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+
+            questionData.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option-btn';
+                btn.innerHTML = `
+                    <span>${opt.text}</span>
+                    <div class="opt-indicator"></div>
+                `;
+                btn.onclick = () => selectOption(opt);
+                container.appendChild(btn);
+            });
+
+            // Ajuste sutil de fundo conforme avanço
+            const glow = document.getElementById('glow');
+            glow.style.opacity = 0.5 + (currentQuestionIndex * 0.1);
+        }
+
+        function selectOption(selectedOption) {
+            userAnswers.push(selectedOption);
+
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                // Transição suave
+                const card = document.querySelector('#step-quiz .glass-card');
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    renderQuestion();
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 250);
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            // Gerar mensagem de conscientização personalizada (sem diagnosticar cientificamente)
+            const resultTextElement = document.getElementById('result-text-target');
+            
+            resultTextElement.innerText = "Talvez o problema não seja apenas conseguir pessoas interessadas. Pode estar na forma como a conversa é conduzida no momento em que o cliente pede informações ou diz que vai pensar.";
+
+            switchStep('step-quiz', 'step-result');
+        }
+
+        function scrollToMentorship() {
+            const mentorshipDiv = document.getElementById('mentorship-section');
+            mentorshipDiv.style.display = 'block';
+            
+            // Animação de rolagem suave
+            mentorshipDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function switchStep(fromId, toId) {
+            const fromElem = document.getElementById(fromId);
+            const toElem = document.getElementById(toId);
+
+            fromElem.classList.remove('active');
+            setTimeout(() => {
+                fromElem.style.display = 'none';
+                toElem.style.display = 'block';
+                setTimeout(() => {
+                    toElem.classList.add('active');
+                }, 50);
+            }, 300);
+        }
+
+        // Lógica do FAQ Accordion
+        function toggleFaq(button) {
+            const item = button.parentElement;
+            const isOpen = item.classList.contains('open');
+
+            // Fechar outros itens abertos
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('open');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
+
