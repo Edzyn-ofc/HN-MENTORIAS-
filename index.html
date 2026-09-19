@@ -1,37 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt-MZ" class="scroll-smooth">
+<html lang="pt-MZ" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentoria: Transformar o WhatsApp numa Máquina de Vendas</title>
-
-    <!-- Tailwind CSS CDN -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>HN Mentorias | Transformar o WhatsApp numa Máquina de Vendas</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#1C1C1C',
-                            surface: '#121212',
+                            emerald: '#25D366',
+                            teal: '#075E54',
                             gold: '#C9A227',
-                            green: '#2E7D4F',
-                            greenGlow: '#369A62',
-                            cream: '#E5E0D8',
-                            muted: '#A1A1AA',
-                            glass: 'rgba(255, 255, 255, 0.03)',
-                            glassBorder: 'rgba(255, 255, 255, 0.08)'
+                            dark: '#080A09',
+                            card: '#111614',
+                            border: '#1B2420',
+                            accent: '#34D399'
                         }
                     },
                     fontFamily: {
-                        display: ['Syne', 'sans-serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+                        display: ['Syne', 'Plus Jakarta Sans', 'sans-serif']
                     },
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
+                        'float': 'float 5s ease-in-out infinite',
                         'glow': 'glow 3s ease-in-out infinite alternate',
+                        'typing': 'typing 1.4s infinite'
                     },
                     keyframes: {
                         float: {
@@ -39,814 +39,634 @@
                             '50%': { transform: 'translateY(-10px)' },
                         },
                         glow: {
-                            '0%': { opacity: '0.4', filter: 'blur(40px)' },
-                            '100%': { opacity: '0.8', filter: 'blur(60px)' },
+                            '0%': { opacity: '0.3', transform: 'scale(0.98)' },
+                            '100%': { opacity: '0.7', transform: 'scale(1.02)' },
                         }
                     }
                 }
             }
         }
     </script>
-
-    <!-- Fonts -->
+    
+    <!-- Google Fonts: Syne + Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        :root {
+            --bg-page: #080A09;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
         body {
-            background-color: #0A0A0B;
-            color: #E5E0D8;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: var(--font-body);
+            background-color: var(--bg-page);
+            color: #E2E8F0;
             overflow-x: hidden;
-            selection-background-color: #C9A227;
-            selection-color: #1C1C1C;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Ambient spotlight gradients */
-        .ambient-spotlight {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            z-index: 0;
-            background: 
-                radial-gradient(800px circle at 50% -100px, rgba(46, 125, 79, 0.18), transparent 80%),
-                radial-gradient(600px circle at 85% 60%, rgba(201, 162, 39, 0.08), transparent 70%),
-                radial-gradient(700px circle at 15% 40%, rgba(46, 125, 79, 0.08), transparent 70%);
+        h1, h2, h3, .font-display {
+            font-family: var(--font-display);
         }
 
-        /* Custom Noise Texture Overlay */
-        .bg-noise {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        /* Responsive typography clamps */
+        .hero-title {
+            font-size: clamp(1.85rem, 5.5vw, 3.75rem);
+            line-height: 1.15;
         }
 
-        /* Glassmorphism Ultra Premium */
-        .apple-glass {
-            background: rgba(28, 28, 28, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        .section-title {
+            font-size: clamp(1.5rem, 4vw, 2.75rem);
+            line-height: 1.2;
+        }
+
+        /* Mobile-First Glassmorphism & Aurora Glow Effects */
+        .glass-panel {
+            background: rgba(17, 22, 20, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(37, 211, 102, 0.15);
+        }
+
+        .glass-card {
+            background: rgba(22, 28, 26, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .apple-glass-gold {
-            background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(28, 28, 28, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(201, 162, 39, 0.25);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(201, 162, 39, 0.3);
-        }
-
-        .apple-glass-green {
-            background: linear-gradient(135deg, rgba(46, 125, 79, 0.12) 0%, rgba(18, 18, 18, 0.85) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(46, 125, 79, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(46, 125, 79, 0.3);
-        }
-
-        /* Text Gradients */
-        .text-gradient-gold {
-            background: linear-gradient(135deg, #FFF6D6 0%, #C9A227 50%, #9A7712 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .text-gradient-green {
-            background: linear-gradient(135deg, #A2F3C0 0%, #2E7D4F 60%, #1A4D2E 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .text-gradient-silver {
-            background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Custom Button Hover Micro-interactions */
-        .btn-glow {
-            position: relative;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn-glow::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(90deg, #2E7D4F, #C9A227, #2E7D4F);
-            border-radius: inherit;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            filter: blur(12px);
+        .glass-card:hover, .glass-card:active {
+            border-color: rgba(37, 211, 102, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.2);
+            transform: translateY(-2px);
         }
 
-        .btn-glow:hover::after {
-            opacity: 0.7;
+        /* Touch Target Optimization (min 48px) */
+        .touch-target {
+            min-height: 52px;
+            display: flex;
+            align-items: center;
         }
 
-        .btn-glow:hover {
-            transform: translateY(-2px) scale(1.01);
+        /* Ambient Mesh Background */
+        .ambient-mesh {
+            background-image: 
+                radial-gradient(at 15% 15%, rgba(37, 211, 102, 0.12) 0px, transparent 45%),
+                radial-gradient(at 85% 25%, rgba(201, 162, 39, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 85%, rgba(7, 94, 84, 0.18) 0px, transparent 60%);
+            background-attachment: fixed;
         }
 
-        .btn-glow:active {
-            transform: translateY(1px) scale(0.99);
-        }
-
-        /* Interactive Quiz Card Hover */
-        .quiz-option {
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .quiz-option:hover {
-            border-color: rgba(201, 162, 39, 0.5);
-            background: rgba(201, 162, 39, 0.05);
-            transform: translateX(6px);
-        }
-
-        /* Animated Progress Bar */
-        .progress-glow {
-            box-shadow: 0 0 15px rgba(201, 162, 39, 0.6);
-        }
-
-        /* Funnel Step Highlight Glow */
-        .funnel-glow {
-            box-shadow: 0 0 20px rgba(46, 125, 79, 0.25);
-        }
-
-        /* Accordion transition */
+        /* Custom Accordion Smooth Transition */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease;
-            opacity: 0;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .accordion-content.open {
-            max-height: 300px;
-            opacity: 1;
-            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        /* Typing Dots Animation */
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-3px); }
         }
 
-        /* Smooth Hide/Show Animations */
+        /* Slide Transition Animations */
         .step-transition {
             transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        
+        .step-hidden {
+            opacity: 0;
+            transform: translateY(16px);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+        }
+
+        .step-visible {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+        }
     </style>
 </head>
-<body class="relative min-h-screen bg-noise antialiased">
+<body class="ambient-mesh min-h-screen antialiased selection:bg-brand-emerald selection:text-black">
 
-    <!-- Fixed Ambient Glow Backdrop -->
-    <div class="ambient-spotlight"></div>
-
-    <!-- MAIN APP CONTAINER -->
-    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
-
-        <!-- 1. HEADER / NAVIGATION PILL -->
-        <header class="sticky top-6 z-50 mb-12 sm:mb-16">
-            <nav class="apple-glass rounded-full px-5 py-3 flex items-center justify-between transition-all duration-300">
-                <!-- Brand Title -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-green to-brand-gold flex items-center justify-center p-[1px] shadow-lg">
-                        <div class="w-full h-full bg-brand-dark rounded-full flex items-center justify-center">
-                            <span class="font-display font-bold text-sm text-brand-gold">HN</span>
-                        </div>
-                    </div>
-                    <span class="font-display font-extrabold text-sm sm:text-base tracking-wider text-white">
-                       MENTORIAS
-                    </span>
+    <!-- NAVIGATION / HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 py-3">
+        <div class="max-w-5xl mx-auto glass-panel rounded-2xl px-4 sm:px-6 py-2.5 flex items-center justify-between border border-emerald-900/40 shadow-2xl">
+            <!-- Brand Mark -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-emerald to-brand-teal flex items-center justify-center text-black font-black text-sm shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                    <span class="font-display">HN</span>
                 </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-extrabold text-sm sm:text-base tracking-wider text-white group-hover:text-brand-emerald transition-colors">HN MENTORIAS</span>
+                    <span class="text-[9px] sm:text-[10px] text-brand-gold font-medium tracking-widest uppercase">WhatsApp Vendas</span>
+                </div>
+            </a>
 
-                <!-- Status Badge -->
-                <div class="hidden sm:flex items-center space-x-2 bg-brand-green/10 border border-brand-green/30 rounded-full px-3 py-1">
+            <!-- Status Indicator Badge -->
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-[10px] sm:text-xs text-emerald-400 font-semibold">
                     <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span class="text-xs font-semibold text-brand-green uppercase tracking-wider">Diagnóstico Exclusivo 2026</span>
+                    <span>30 VAGAS</span>
                 </div>
-
-                <!-- Fast Contact CTA -->
-                <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." 
-                   target="_blank"
-                   class="inline-flex items-center space-x-2 bg-white/5 hover:bg-white/10 text-brand-cream border border-white/10 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200">
-                    <span>Contacto</span>
-                    <svg class="w-3.5 h-3.5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                    </svg>
+                
+                <a href="#diagnostico" onclick="scrollToDiagnostico(event)" class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-brand-emerald hover:bg-emerald-400 text-black font-extrabold text-xs shadow-lg shadow-emerald-500/20 transition-all">
+                    DIAGNÓSTICO
                 </a>
-            </nav>
-        </header>
-
-        <!-- 2. HERO SECTION -->
-        <section id="hero-section" class="step-transition">
-            <div class="text-center max-w-3xl mx-auto space-y-6">
-                
-                <!-- Pill Tag -->
-                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full apple-glass border-brand-gold/30 text-brand-gold text-xs font-bold uppercase tracking-widest">
-                    <span>Mentoria Estratégica em Moçambique</span>
-                </div>
-
-                <!-- Main Title -->
-                <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight sm:leading-none">
-                    Antes de falar sobre a mentoria…
-                </h1>
-
-                <!-- Subtitle -->
-                <p class="text-lg sm:text-2xl font-medium text-gradient-silver max-w-2xl mx-auto">
-                    vamos descobrir como estão as tuas vendas pelo WhatsApp.
-                </p>
-
-                <!-- INTERACTIVE WHATSAPP MOCKUP DEVICE -->
-                <div class="py-6 my-4">
-                    <div class="apple-glass rounded-3xl p-4 sm:p-6 max-w-md mx-auto shadow-2xl border border-white/10 text-left relative overflow-hidden group">
-                        
-                        <!-- Header Mockup -->
-                        <div class="flex items-center space-x-3 pb-3 border-b border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-gold/40 to-brand-green/40 flex items-center justify-center text-white font-bold text-sm border border-white/10">
-                                C
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold text-white leading-none">Cliente Potencial</h4>
-                                <span class="text-[10px] text-brand-muted">Visto pela última vez ontem às 18:42</span>
-                            </div>
-                        </div>
-
-                        <!-- Chat Bubbles -->
-                        <div class="py-4 space-y-3 text-xs sm:text-sm">
-                            <!-- Message 1 (Customer) -->
-                            <div class="flex justify-start">
-                                <div class="bg-white/10 text-brand-cream rounded-2xl rounded-tl-none px-3.5 py-2 max-w-[80%] border border-white/5">
-                                    <p>Olá, bom dia! Qual é o preço do produto?</p>
-                                    <span class="text-[9px] text-brand-muted block text-right mt-1">09:14</span>
-                                </div>
-                            </div>
-
-                            <!-- Message 2 (Vendor) -->
-                            <div class="flex justify-end">
-                                <div class="bg-brand-green/30 text-white rounded-2xl rounded-tr-none px-3.5 py-2 max-w-[80%] border border-brand-green/40">
-                                    <p>Bom dia! Custa 2.500 MT.</p>
-                                    <span class="text-[9px] text-brand-greenGlow block text-right mt-1">09:16 ✓✓</span>
-                                </div>
-                            </div>
-
-                            <!-- Message 3 (Customer - Ghosted / No response) -->
-                            <div class="flex justify-start pt-1">
-                                <div class="bg-red-500/10 border border-red-500/20 text-red-300 rounded-xl px-3 py-1.5 text-xs italic flex items-center space-x-2">
-                                    <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <span>Visualizou e não respondeu mais...</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-center pt-2 border-t border-white/5">
-                            <span class="text-[11px] text-brand-gold font-medium">Reconheces este cenário no teu negócio?</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Call to action lead -->
-                <p class="text-sm sm:text-base text-brand-muted max-w-xl mx-auto">
-                    Responde a 5 perguntas rápidas e descobre onde podes estar a perder oportunidades todos os dias.
-                </p>
-
-                <!-- START QUIZ BUTTON -->
-                <div class="pt-4">
-                    <button onclick="startQuiz()" 
-                            class="btn-glow apple-glass-gold px-8 py-5 rounded-2xl font-display font-extrabold text-base sm:text-lg text-white tracking-wide shadow-2xl flex items-center justify-center space-x-3 mx-auto w-full sm:w-auto">
-                        <span>COMEÇAR O DIAGNÓSTICO</span>
-                        <svg class="w-5 h-5 text-brand-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                    </button>
-                </div>
-
             </div>
-        </section>
+        </div>
+    </header>
 
-        <!-- 3. INTERACTIVE QUIZ SECTION (SPA State) -->
-        <section id="quiz-section" class="hidden step-transition">
-            <div class="apple-glass rounded-3xl p-6 sm:p-10 max-w-2xl mx-auto relative overflow-hidden">
-                
-                <!-- Progress Header -->
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <span class="text-xs font-extrabold text-brand-gold uppercase tracking-widest">Diagnóstico Interativo</span>
-                        <h3 class="text-sm font-semibold text-brand-muted">Análise de Processo de Venda</h3>
-                    </div>
-                    <div class="text-right">
-                        <span id="quiz-step-counter" class="font-display font-black text-xl text-white">01</span>
-                        <span class="text-sm text-brand-muted"> / 05</span>
-                    </div>
-                </div>
+    <main class="pt-24 sm:pt-36 pb-28 px-3 sm:px-6 max-w-5xl mx-auto space-y-16 sm:space-y-28">
 
-                <!-- Progress Bar Container -->
-                <div class="w-full bg-white/5 rounded-full h-2.5 mb-8 border border-white/5 overflow-hidden">
-                    <div id="quiz-progress-bar" 
-                         class="bg-gradient-to-r from-brand-gold to-brand-green h-full rounded-full transition-all duration-500 ease-out progress-glow" 
-                         style="width: 20%;"></div>
-                </div>
+        <!-- HERO SECTION -->
+        <section class="relative text-center space-y-6 sm:space-y-8 max-w-3xl mx-auto pt-2">
+            <!-- Ambient Background Orb -->
+            <div class="absolute -top-16 left-1/2 -translate-x-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-slow"></div>
 
-                <!-- Question Text -->
-                <div class="min-h-[90px] flex items-center mb-8">
-                    <h2 id="quiz-question-text" class="font-display text-xl sm:text-2xl font-bold text-white leading-snug">
-                        1. Quando alguém demonstra interesse no teu produto, o que normalmente acontece?
-                    </h2>
-                </div>
-
-                <!-- Response Options Container -->
-                <div id="quiz-options-container" class="space-y-4">
-                    <!-- Populated dynamically via JS -->
-                </div>
-
-                <!-- Back / Reset micro action -->
-                <div class="mt-8 pt-4 border-t border-white/5 flex justify-between items-center text-xs text-brand-muted">
-                    <button onclick="resetQuiz()" class="hover:text-white transition-colors flex items-center space-x-1">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
-                        <span>Reiniciar diagnóstico</span>
-                    </button>
-                    <span>Respostas 100% confidenciais</span>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- 4. DIAGNOSTIC RESULT & PIPELINE REVELATION -->
-        <section id="result-section" class="hidden step-transition">
-            <div class="apple-glass rounded-3xl p-6 sm:p-10 max-w-3xl mx-auto space-y-8 text-center">
-                
-                <!-- Glowing Check Badge -->
-                <div class="w-16 h-16 rounded-full bg-brand-gold/10 border border-brand-gold/40 mx-auto flex items-center justify-center text-brand-gold shadow-xl">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-
-                <div>
-                    <span class="text-xs font-bold text-brand-gold uppercase tracking-widest">Diagnóstico Concluído</span>
-                    <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-2">
-                        Agora ficou mais claro.
-                    </h2>
-                </div>
-
-                <!-- Result Narrative Box -->
-                <div class="apple-glass-gold rounded-2xl p-6 text-left border-l-4 border-l-brand-gold space-y-3">
-                    <p class="text-base sm:text-lg text-white font-medium leading-relaxed">
-                        Talvez o problema não seja apenas conseguir pessoas interessadas. Pode estar na forma como a conversa é conduzida.
-                    </p>
-                    <p class="text-sm text-brand-cream/80">
-                        Quando não existe uma estrutura intencional, o cliente assume o controlo da conversa, pede o preço prematuramente e desaparece.
-                    </p>
-                </div>
-
-                <!-- VISUAL PIPELINE FUNNEL -->
-                <div class="text-left space-y-4 pt-4">
-                    <h3 class="text-sm font-extrabold text-brand-muted uppercase tracking-wider text-center">
-                        Estrutura do Funil de Conversão no WhatsApp
-                    </h3>
-
-                    <div class="grid grid-cols-1 gap-2.5 sm:gap-3">
-                        
-                        <!-- Step 1 -->
-                        <div class="apple-glass p-3.5 rounded-xl flex items-center justify-between border-l-4 border-l-brand-muted">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-muted">01</span>
-                                <span class="text-sm font-bold text-white">ABORDAGEM</span>
-                            </div>
-                            <span class="text-xs text-brand-muted">Primeiro contacto & Atração</span>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="apple-glass p-3.5 rounded-xl flex items-center justify-between border-l-4 border-l-brand-muted">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-muted">02</span>
-                                <span class="text-sm font-bold text-white">CONVERSA</span>
-                            </div>
-                            <span class="text-xs text-brand-muted">Conexão & Rapport</span>
-                        </div>
-
-                        <!-- Step 3 (Highlight) -->
-                        <div class="apple-glass-green p-4 rounded-xl flex items-center justify-between border-l-4 border-l-brand-green funnel-glow">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-greenGlow">03</span>
-                                <span class="text-sm sm:text-base font-extrabold text-white">NECESSIDADE</span>
-                            </div>
-                            <span class="text-xs font-semibold text-brand-greenGlow">Diagnóstico de dor do cliente</span>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="apple-glass p-3.5 rounded-xl flex items-center justify-between border-l-4 border-l-brand-muted">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-muted">04</span>
-                                <span class="text-sm font-bold text-white">OFERTA</span>
-                            </div>
-                            <span class="text-xs text-brand-muted">Apresentação de valor</span>
-                        </div>
-
-                        <!-- Step 5 (Highlight) -->
-                        <div class="apple-glass-gold p-4 rounded-xl flex items-center justify-between border-l-4 border-l-brand-gold">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-gold">05</span>
-                                <span class="text-sm sm:text-base font-extrabold text-white">OBJEÇÃO</span>
-                            </div>
-                            <span class="text-xs font-semibold text-brand-gold">Desarmar "vou pensar"</span>
-                        </div>
-
-                        <!-- Step 6 -->
-                        <div class="apple-glass p-3.5 rounded-xl flex items-center justify-between border-l-4 border-l-brand-muted">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-muted">06</span>
-                                <span class="text-sm font-bold text-white">FOLLOW-UP</span>
-                            </div>
-                            <span class="text-xs text-brand-muted">Acompanhamento estratégico</span>
-                        </div>
-
-                        <!-- Step 7 (Highlight) -->
-                        <div class="apple-glass-green p-4 rounded-xl flex items-center justify-between border-l-4 border-l-brand-green funnel-glow">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xs font-black text-brand-greenGlow">07</span>
-                                <span class="text-sm sm:text-base font-extrabold text-white">VENDA</span>
-                            </div>
-                            <span class="text-xs font-bold text-brand-greenGlow">Fechamento & Pagamento</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="pt-6 border-t border-white/10">
-                    <p class="font-display font-bold text-lg sm:text-xl text-white mb-6">
-                        É exatamente isso que trabalhamos na mentoria.
-                    </p>
-
-                    <button onclick="revealMentorship()" 
-                            class="btn-glow apple-glass-green px-8 py-5 rounded-2xl font-display font-extrabold text-base sm:text-lg text-white tracking-wide shadow-2xl flex items-center justify-center space-x-3 mx-auto w-full sm:w-auto">
-                        <span>VER COMO FUNCIONA A MENTORIA</span>
-                        <svg class="w-5 h-5 text-brand-greenGlow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- 5. MENTORSHIP MAIN DETAILS SECTION -->
-        <section id="mentorship-section" class="hidden space-y-16 pt-12">
-            
-            <!-- Program Intro Card -->
-            <div class="apple-glass rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-white/10">
-                <div class="max-w-3xl space-y-6">
-                    <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-brand-green/20 border border-brand-green/40 text-brand-greenGlow text-xs font-extrabold uppercase tracking-widest">
-                        <span>Programa Prático Intensivo</span>
-                    </div>
-
-                    <h2 class="font-display text-3xl sm:text-5xl font-black text-white leading-tight">
-                        TRANSFORMAR O WHATSAPP NUMA <span class="text-gradient-gold">MÁQUINA DE VENDAS</span>
-                    </h2>
-
-                    <p class="text-lg sm:text-xl text-brand-cream/90 font-medium leading-relaxed">
-                        Uma mentoria prática para quem já tem algo para vender e quer aprender a utilizar o WhatsApp de forma mais estratégica para vender.
-                    </p>
-
-                    <!-- Module Grid -->
-                    <div class="pt-8">
-                        <h3 class="text-xs font-extrabold text-brand-gold uppercase tracking-widest mb-6">
-                            O que será trabalhado em detalhe:
-                        </h3>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Abordagem de potenciais clientes</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Captar a atenção imediata sem ser ignorado.</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Comunicação e conversa de vendas</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Conduzir a interação com postura profissional.</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Psicologia aplicada às vendas</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Gatilhos mentais de decisão no chat.</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Descoberta das necessidades do cliente</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Perguntas qualificadoras de alto impacto.</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Apresentação da oferta e do preço</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Apresentar valor antes do custo.</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Tratamento de objeções</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Superar o "está caro" e "vou pensar".</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Fechamento</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Técnicas diretas para concretizar a venda.</p>
-                                </div>
-                            </div>
-
-                            <div class="apple-glass p-4 rounded-xl flex items-start space-x-3 border border-white/5 hover:border-brand-gold/30 transition-colors">
-                                <div class="w-6 h-6 rounded-lg bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0 mt-0.5">✓</div>
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">Follow-up</h4>
-                                    <p class="text-xs text-brand-muted mt-0.5">Recuperar contactos antigos de forma elegante.</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-[11px] sm:text-xs font-bold tracking-wide uppercase">
+                <i class="fa-solid fa-bolt text-[10px]"></i> HN MENTORIAS
             </div>
 
-            <!-- 6. PROGRAM STRUCTURE & FORMAT CARDS -->
-            <div class="space-y-6">
-                <div class="text-center">
-                    <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white">Estrutura e Formato</h3>
-                    <p class="text-brand-muted text-sm mt-1">Organização pensada para o teu acompanhamento contínuo</p>
+            <h1 class="hero-title font-extrabold text-white tracking-tight">
+                Antes de falar sobre a mentoria…<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-brand-emerald to-emerald-500">vamos descobrir como estão as tuas vendas pelo WhatsApp.</span>
+            </h1>
+
+            <p class="text-gray-300 text-sm sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed px-1">
+                Responde a <strong class="text-white font-semibold">5 perguntas rápidas</strong> e descobre onde podes estar a perder oportunidades e clientes todos os dias.
+            </p>
+
+            <!-- REALISTIC WHATSAPP CHAT SIMULATION CARD -->
+            <div class="my-6 max-w-xs sm:max-w-md mx-auto glass-panel p-3.5 sm:p-4 rounded-2xl shadow-2xl border border-emerald-500/20 text-left relative">
+                <div class="absolute -top-3 left-4 px-2.5 py-0.5 rounded-md bg-red-500/20 border border-red-500/40 text-red-300 text-[10px] font-mono flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+                    <span>CENÁRIO FREQUENTE DE PERDA DE VENDA</span>
                 </div>
 
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    
-                    <!-- Card 1 -->
-                    <div class="apple-glass p-6 rounded-2xl text-center space-y-2 border border-white/5 hover:border-brand-gold/40 transition-all">
-                        <span class="text-xs font-bold text-brand-muted uppercase">Duração</span>
-                        <div class="font-display text-2xl font-black text-white">6 Semanas</div>
-                        <p class="text-[11px] text-brand-muted">Acompanhamento gradual</p>
+                <!-- Chat Header -->
+                <div class="flex items-center gap-2.5 border-b border-gray-800/80 pb-2.5 pt-1">
+                    <div class="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-xs">
+                        <i class="fa-solid fa-user"></i>
                     </div>
-
-                    <!-- Card 2 -->
-                    <div class="apple-glass p-6 rounded-2xl text-center space-y-2 border border-white/5 hover:border-brand-gold/40 transition-all">
-                        <span class="text-xs font-bold text-brand-muted uppercase">Organização</span>
-                        <div class="font-display text-xl font-black text-white">2 Ciclos</div>
-                        <p class="text-[11px] text-brand-muted">Ciclos de 3 semanas cada</p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="apple-glass p-6 rounded-2xl text-center space-y-2 border border-white/5 hover:border-brand-gold/40 transition-all">
-                        <span class="text-xs font-bold text-brand-muted uppercase">Dias</span>
-                        <div class="font-display text-sm sm:text-base font-black text-white">Qui, Sex, Sáb & Dom</div>
-                        <p class="text-[11px] text-brand-muted">Sessões & Prática</p>
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="apple-glass-green p-6 rounded-2xl text-center space-y-2 border border-brand-green/40">
-                        <span class="text-xs font-bold text-brand-greenGlow uppercase">Vagas Limitadas</span>
-                        <div class="font-display text-2xl font-black text-white">30 Vagas</div>
-                        <p class="text-[11px] text-brand-greenGlow">Turma reduzida</p>
-                    </div>
-
-                </div>
-
-                <!-- Format Badge -->
-                <div class="apple-glass rounded-2xl p-4 text-center border border-white/10 flex items-center justify-center space-x-3">
-                    <span class="text-xs font-bold text-brand-muted">FORMATO DAS SESSÕES:</span>
-                    <span class="px-3 py-1 bg-white/10 border border-white/20 rounded-full font-extrabold text-xs text-white">A DEFINIR</span>
-                </div>
-            </div>
-
-            <!-- 7. INVESTMENT PRICING CARD -->
-            <div id="pricing-card" class="apple-glass-gold rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-brand-gold/40 shadow-2xl">
-                
-                <div class="max-w-xl mx-auto text-center space-y-6">
-                    <div>
-                        <span class="text-xs font-extrabold text-brand-gold uppercase tracking-widest">Investimento Transparente</span>
-                        <h3 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">
-                            Acesso à Mentoria
-                        </h3>
-                    </div>
-
-                    <!-- Price Breakdown Table -->
-                    <div class="apple-glass rounded-2xl p-6 space-y-4 text-left border border-white/10">
-                        
-                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
-                            <span class="text-sm font-medium text-brand-cream">Taxa de Inscrição</span>
-                            <span class="font-display font-extrabold text-white">100 MT</span>
-                        </div>
-
-                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
-                            <div>
-                                <span class="text-sm font-medium text-brand-cream block">1.º Ciclo</span>
-                                <span class="text-[11px] text-brand-muted">Primeiras 3 semanas</span>
-                            </div>
-                            <span class="font-display font-extrabold text-white">269 MT</span>
-                        </div>
-
-                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
-                            <div>
-                                <span class="text-sm font-medium text-brand-cream block">2.º Ciclo</span>
-                                <span class="text-[11px] text-brand-muted">Semanas 4 a 6</span>
-                            </div>
-                            <span class="font-display font-extrabold text-white">269 MT</span>
-                        </div>
-
-                        <div class="pt-2 flex justify-between items-center">
-                            <span class="font-display font-bold text-base text-brand-gold">Valor Total</span>
-                            <span class="font-display font-black text-3xl text-brand-gold">638 MT</span>
-                        </div>
-
-                    </div>
-
-                    <!-- WHATSAPP DIRECT ACTION CTA -->
-                    <div class="space-y-3 pt-2">
-                        <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." 
-                           target="_blank"
-                           class="btn-glow apple-glass-green w-full py-5 rounded-2xl font-display font-extrabold text-base sm:text-lg text-white tracking-wide shadow-2xl flex items-center justify-center space-x-3 border border-brand-green/50">
-                            <svg class="w-6 h-6 text-brand-greenGlow shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001l-1.416 5.168 5.291-1.387c1.464.798 3.119 1.218 4.779 1.218h.004c5.506 0 9.989-4.478 9.99-9.984 0-2.667-1.038-5.175-2.923-7.062a9.923 9.923 0 00-7.067-2.938zm5.91 14.288c-.252.71-1.464 1.354-2.02 1.414-.51.055-1.173.085-3.376-.826-2.82-1.166-4.63-4.032-4.77-4.218-.14-.188-1.139-1.516-1.139-2.89 0-1.374.72-2.05.975-2.332.255-.282.556-.352.741-.352.186 0 .371.003.533.01.173.007.404-.066.632.482.235.565.801 1.954.87 2.096.07.141.116.308.023.493-.093.186-.14.301-.277.463-.14.162-.294.362-.42.486-.14.141-.286.294-.123.574.163.28 0.723 1.192 1.55 1.928 1.064.946 1.96 1.24 2.24 1.38.28.14.444.116.608-.07.163-.186.702-.818.888-1.1.186-.28.371-.233.626-.14.255.093 1.62.763 1.9.902.28.14.464.21.533.327.07.116.07.672-.182 1.382z"/>
-                            </svg>
-                            <span>QUERO FALAR NO WHATSAPP</span>
-                            <span class="text-brand-greenGlow">→</span>
-                        </a>
-
-                        <p class="text-[11px] text-brand-muted text-center pt-1">
-                            Não sabe onde clicar? Toque no botão acima e o WhatsApp abrirá para você enviar uma mensagem.
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-bold text-white truncate">Cliente Potencial</h4>
+                        <p class="text-[9px] text-emerald-400 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Online no WhatsApp
                         </p>
                     </div>
+                    <i class="fa-brands fa-whatsapp text-emerald-500 text-sm"></i>
+                </div>
 
+                <!-- Chat Messages Body -->
+                <div class="py-3 space-y-2.5 text-xs">
+                    <!-- Received Message -->
+                    <div class="flex flex-col items-start max-w-[85%]">
+                        <div class="bg-[#1F2C24] text-gray-200 p-2.5 rounded-2xl rounded-tl-xs border border-emerald-900/30">
+                            Olá! Gostei do vosso produto. Qual é o preço?
+                        </div>
+                        <span class="text-[8px] text-gray-500 mt-0.5 pl-1">14:30</span>
+                    </div>
+
+                    <!-- Sent Message (The Mistake) -->
+                    <div class="flex flex-col items-end max-w-[85%] ml-auto">
+                        <div class="bg-[#005C4B] text-white p-2.5 rounded-2xl rounded-tr-xs">
+                            Olá! Custa 1.500 MT.
+                        </div>
+                        <span class="text-[8px] text-emerald-300/70 mt-0.5 pr-1 flex items-center gap-0.5">
+                            14:31 <i class="fa-solid fa-check-double text-emerald-400"></i>
+                        </span>
+                    </div>
+
+                    <!-- Status Indicator: Left on Read -->
+                    <div class="flex items-center justify-center pt-1">
+                        <div class="px-2.5 py-1 rounded-full bg-red-950/60 border border-red-800/40 text-red-300 text-[10px] flex items-center gap-1.5">
+                            <i class="fa-regular fa-eye text-red-400"></i>
+                            <span>Cliente leu às 14:32 e não respondeu mais...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 8. FAQ ACCORDION SECTION -->
-            <div class="space-y-8 pt-6">
-                <div class="text-center">
-                    <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white">Perguntas Frequentes</h3>
-                    <p class="text-brand-muted text-sm mt-1">Esclarece todas as tuas dúvidas sobre a mentoria</p>
+            <!-- HERO CTA -->
+            <div class="pt-1">
+                <a href="#diagnostico" onclick="scrollToDiagnostico(event)" class="touch-target inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-emerald via-emerald-400 to-brand-emerald text-black font-extrabold text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-95 transition-all w-full sm:w-auto">
+                    <span>COMEÇAR O DIAGNÓSTICO</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- DIAGNOSTIC QUIZ SECTION -->
+        <section id="diagnostico" class="scroll-mt-24 max-w-2xl mx-auto">
+            <div class="glass-panel p-4 sm:p-8 rounded-3xl border border-emerald-500/20 shadow-2xl relative">
+                
+                <!-- Quiz Progress Bar Header -->
+                <div class="space-y-2.5 mb-6">
+                    <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+                        <span class="text-brand-emerald flex items-center gap-1.5">
+                            <i class="fa-solid fa-clipboard-check"></i> DIAGNÓSTICO
+                        </span>
+                        <span id="quiz-step-text" class="text-brand-gold font-mono text-sm">01 / 05</span>
+                    </div>
+                    <div class="w-full bg-gray-800/80 h-2 rounded-full overflow-hidden p-0.5 border border-gray-700/50">
+                        <div id="quiz-bar-fill" class="bg-gradient-to-r from-brand-emerald to-brand-gold h-full rounded-full transition-all duration-300 ease-out" style="width: 20%;"></div>
+                    </div>
                 </div>
 
-                <div class="max-w-3xl mx-auto space-y-3">
-                    
-                    <!-- FAQ 1 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>O que é a mentoria?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                Uma mentoria prática para quem já tem algo para vender e quer aprender a utilizar o WhatsApp de forma mais estratégica para vender.
-                            </p>
+                <!-- Quiz Step Viewport -->
+                <div id="quiz-viewport" class="relative min-h-[300px]">
+                    <!-- Dynamically Injected Quiz Question -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- RESULT & VISUAL SALES FUNNEL SECTION (Initially Hidden) -->
+        <section id="step-result" class="step-hidden step-transition scroll-mt-24 max-w-3xl mx-auto space-y-8">
+            <div class="glass-panel p-5 sm:p-10 rounded-3xl border-2 border-brand-emerald/40 text-center space-y-6 shadow-2xl">
+                
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-brand-emerald text-xs font-bold uppercase">
+                    <i class="fa-solid fa-circle-check"></i> Diagnóstico Concluído
+                </div>
+
+                <div class="space-y-3">
+                    <h2 class="text-2xl sm:text-4xl font-black text-white">
+                        Agora ficou mais claro.
+                    </h2>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
+                        Talvez o problema não seja apenas conseguir pessoas interessadas. Pode estar na forma como a conversa é conduzida.
+                    </p>
+                </div>
+
+                <!-- 7-STEP VISUAL FUNNEL -->
+                <div class="py-2 space-y-3 text-left">
+                    <p class="text-[11px] font-mono uppercase tracking-widest text-brand-gold text-center">
+                        Estrutura Ideal de Vendas no WhatsApp:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                        <div class="glass-card p-3 rounded-xl border border-emerald-900/40 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-950 text-brand-emerald font-mono font-bold text-xs flex items-center justify-center">1</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">ABORDAGEM</div>
+                                <div class="text-[10px] text-gray-400">Início do contacto</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-xl border border-emerald-900/40 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-950 text-brand-emerald font-mono font-bold text-xs flex items-center justify-center">2</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">CONVERSA</div>
+                                <div class="text-[10px] text-gray-400">Conexão inicial</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-xl border border-emerald-900/40 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-950 text-brand-emerald font-mono font-bold text-xs flex items-center justify-center">3</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">NECESSIDADE</div>
+                                <div class="text-[10px] text-gray-400">Entendimento real</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-xl border border-emerald-900/40 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-950 text-brand-emerald font-mono font-bold text-xs flex items-center justify-center">4</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">OFERTA</div>
+                                <div class="text-[10px] text-gray-400">Apresentação de valor</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-xl border border-emerald-900/40 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-950 text-brand-emerald font-mono font-bold text-xs flex items-center justify-center">5</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">OBJEÇÃO</div>
+                                <div class="text-[10px] text-gray-400">Superação de dúvidas</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-xl border border-emerald-900/40 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-950 text-brand-emerald font-mono font-bold text-xs flex items-center justify-center">6</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">FOLLOW-UP</div>
+                                <div class="text-[10px] text-gray-400">Acompanhamento</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-xl border-2 border-brand-gold bg-brand-gold/10 sm:col-span-2 flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-lg bg-brand-gold text-black font-mono font-bold text-xs flex items-center justify-center">7</span>
+                            <div>
+                                <div class="text-xs font-bold text-brand-gold">VENDA FECHADA</div>
+                                <div class="text-[10px] text-gray-300">Pagamento efetuado</div>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- FAQ 2 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Para quem é?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                Para empreendedores, prestadores de serviços, comerciantes e vendedores que já possuem um produto ou serviço ativo e querem aumentar significativamente as conversões no WhatsApp.
-                            </p>
-                        </div>
+                <div class="pt-2 border-t border-gray-800 space-y-4">
+                    <p class="text-sm font-bold text-white">
+                        É exatamente isso que trabalhamos na mentoria.
+                    </p>
+                    <a href="#mentoria" onclick="revealMentorshipDetails(event)" class="touch-target inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-brand-emerald text-black font-extrabold text-sm hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 w-full sm:w-auto">
+                        <span>VER COMO FUNCIONA A MENTORIA</span>
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MENTORSHIP PROGRAM DETAILS SECTION -->
+        <section id="mentoria" class="scroll-mt-28 space-y-8 sm:space-y-12">
+            
+            <div class="text-center space-y-3 max-w-2xl mx-auto">
+                <span class="text-brand-emerald text-xs font-extrabold tracking-widest uppercase">HN MENTORIAS</span>
+                <h2 class="section-title font-extrabold text-white">
+                    TRANSFORMAR O WHATSAPP NUMA <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-brand-emerald">MÁQUINA DE VENDAS</span>
+                </h2>
+                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                    Uma mentoria prática para quem já tem algo para vender e quer aprender a utilizar o WhatsApp de forma mais estratégica para vender.
+                </p>
+            </div>
+
+            <!-- Curriculum Topics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-user-plus"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Abordagem de Clientes</h3>
+                    <p class="text-xs text-gray-400">Como prospectar e abordar potenciais clientes de forma profissional.</p>
+                </div>
 
-                    <!-- FAQ 3 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Quanto custa?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                O valor total da mentoria é de 638 MT, divididos entre taxa de inscrição e os dois ciclos de acompanhamento.
-                            </p>
-                        </div>
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-comments"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Comunicação Eficiente</h3>
+                    <p class="text-xs text-gray-400">Conduzir conversas direcionadas para a conversão de vendas.</p>
+                </div>
 
-                    <!-- FAQ 4 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Quanto é a inscrição?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                A taxa de inscrição inicial é de 100 MT para garantir a tua vaga na turma de 30 alunos.
-                            </p>
-                        </div>
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-brain"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Psicologia de Vendas</h3>
+                    <p class="text-xs text-gray-400">Entender os gatilhos e comportamento de compra do cliente.</p>
+                </div>
 
-                    <!-- FAQ 5 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Quanto tempo dura?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                A mentoria tem a duração total de 6 semanas, divididas estrategicamente em 2 ciclos de 3 semanas.
-                            </p>
-                        </div>
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-magnifying-glass-dollar"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Descoberta de Necessidades</h3>
+                    <p class="text-xs text-gray-400">Identificar a dor exata do cliente antes de apresentar a solução.</p>
+                </div>
 
-                    <!-- FAQ 6 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Quais são os dias?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                As sessões e acompanhamentos acontecem às quintas, sextas, sábados e domingos.
-                            </p>
-                        </div>
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-tag"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Apresentação da Oferta</h3>
+                    <p class="text-xs text-gray-400">Como passar o preço agregando valor irresistível.</p>
+                </div>
 
-                    <!-- FAQ 7 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Como faço para me inscrever?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                Basta clicar num dos botões verdes de contacto WhatsApp nesta página. Serás redirecionado para a nossa equipa para concluir a tua inscrição.
-                            </p>
-                        </div>
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Tratamento de Objeções</h3>
+                    <p class="text-xs text-gray-400">Superar "está caro" ou "vou pensar" com segurança.</p>
+                </div>
 
-                    <!-- FAQ 8 -->
-                    <div class="apple-glass rounded-2xl border border-white/5 overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full p-5 text-left font-bold text-white flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors">
-                            <span>Qual é o formato?</span>
-                            <span class="text-brand-gold font-mono text-xl shrink-0">+</span>
-                        </button>
-                        <div class="accordion-content px-5">
-                            <p class="pb-5 text-sm text-brand-muted leading-relaxed">
-                                O formato específico das sessões está atualmente A DEFINIR e será comunicado diretamente aos inscritos antes do início das aulas.
-                            </p>
-                        </div>
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-handshake"></i>
                     </div>
+                    <h3 class="text-sm font-bold text-white">Fechamento de Vendas</h3>
+                    <p class="text-xs text-gray-400">Concretizar o pagamento e confirmar o negócio.</p>
+                </div>
 
+                <div class="glass-card p-4 rounded-2xl space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-brand-emerald flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white">Follow-up Estratégico</h3>
+                    <p class="text-xs text-gray-400">Acompanhamento contínuo para recuperar vendas pendentes.</p>
                 </div>
             </div>
 
-            <!-- FOOTER COPYRIGHT -->
-            <footer class="pt-12 text-center text-xs text-brand-muted space-y-2">
-                <p>© 2026 Mentoria Transformar o WhatsApp numa Máquina de Vendas.</p>
-                <p>© H N       &blk12;EDZYN OFC</p>
-                <p class="text-[10px] opacity-60">Todos os direitos reservados. Moçambique.</p>
-            </footer>
+            <!-- Program Format & Structure Cards -->
+            <div class="glass-panel p-5 sm:p-8 rounded-3xl border border-emerald-500/20 grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                <div class="space-y-1">
+                    <span class="text-[10px] text-gray-400 font-medium block uppercase">DURAÇÃO</span>
+                    <span class="text-sm sm:text-base font-extrabold text-white">6 Semanas</span>
+                </div>
+                <div class="space-y-1 border-l border-gray-800/80">
+                    <span class="text-[10px] text-gray-400 font-medium block uppercase">ORGANIZAÇÃO</span>
+                    <span class="text-sm sm:text-base font-extrabold text-white">2 Ciclos de 3 sem.</span>
+                </div>
+                <div class="space-y-1 border-l border-gray-800/80">
+                    <span class="text-[10px] text-gray-400 font-medium block uppercase">DIAS</span>
+                    <span class="text-xs sm:text-sm font-bold text-brand-emerald">Qui, Sex, Sáb, Dom</span>
+                </div>
+                <div class="space-y-1 border-l border-gray-800/80">
+                    <span class="text-[10px] text-gray-400 font-medium block uppercase">FORMATO</span>
+                    <span class="text-xs sm:text-sm font-bold text-brand-gold">A DEFINIR</span>
+                </div>
+                <div class="space-y-1 border-l border-gray-800/80 col-span-2 md:col-span-1">
+                    <span class="text-[10px] text-gray-400 font-medium block uppercase">VAGAS</span>
+                    <span class="text-sm sm:text-base font-extrabold text-brand-emerald">Apenas 30</span>
+                </div>
+            </div>
 
         </section>
 
+        <!-- INVESTMENT PRICING CARD -->
+        <section id="preco" class="scroll-mt-28 max-w-lg mx-auto">
+            <div class="glass-panel p-5 sm:p-8 rounded-3xl border-2 border-brand-emerald/40 space-y-6 text-center shadow-2xl relative overflow-hidden">
+                
+                <div class="space-y-1.5">
+                    <span class="text-brand-gold text-[10px] font-extrabold tracking-widest uppercase">HN MENTORIAS</span>
+                    <h3 class="text-xl sm:text-2xl font-black text-white">Investimento Acessível</h3>
+                    <p class="text-xs text-gray-400">Pagamento facilitado e dividido por ciclos</p>
+                </div>
+
+                <div class="space-y-2.5 bg-black/50 p-4 rounded-2xl border border-gray-800/80 text-xs sm:text-sm">
+                    <div class="flex items-center justify-between py-1.5 border-b border-gray-800/80">
+                        <span class="text-gray-300">Inscrição</span>
+                        <span class="font-bold text-white font-mono">100 MT</span>
+                    </div>
+                    <div class="flex items-center justify-between py-1.5 border-b border-gray-800/80">
+                        <span class="text-gray-300">1.º Ciclo (3 Semanas)</span>
+                        <span class="font-bold text-white font-mono">269 MT</span>
+                    </div>
+                    <div class="flex items-center justify-between py-1.5 border-b border-gray-800/80">
+                        <span class="text-gray-300">2.º Ciclo (3 Semanas)</span>
+                        <span class="font-bold text-white font-mono">269 MT</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="font-extrabold text-white text-xs sm:text-sm">TOTAL</span>
+                        <span class="font-black text-xl text-brand-emerald font-mono">638 MT</span>
+                    </div>
+                </div>
+
+                <!-- DIRECT WHATSAPP ACTION BUTTON -->
+                <div class="space-y-2.5">
+                    <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener noreferrer" class="touch-target w-full px-6 py-4 rounded-2xl bg-gradient-to-r from-brand-emerald to-emerald-500 text-black font-extrabold text-sm flex items-center justify-center gap-2.5 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>INSCREVER NO WHATSAPP</span>
+                    </a>
+
+                    <p class="text-[10px] text-gray-400 leading-normal">
+                        Não sabe onde clicar? Toque no botão acima e o WhatsApp abrirá para você enviar uma mensagem.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FAQ ACCORDION SECTION -->
+        <section id="faq" class="scroll-mt-28 max-w-2xl mx-auto space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-xl sm:text-3xl font-black text-white">Perguntas Frequentes</h2>
+                <p class="text-xs text-gray-400">Esclarece as tuas dúvidas sobre a mentoria</p>
+            </div>
+
+            <div class="space-y-2.5">
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>O que é a mentoria?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        Uma mentoria prática para quem já tem algo para vender e quer aprender a utilizar o WhatsApp de forma mais estratégica para vender.
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Para quem é?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        Para empreendedores e vendedores que já possuem um produto ou serviço e desejam aumentar a taxa de conversão no WhatsApp.
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Quanto custa?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        O valor total é de 638 MT.
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Quanto é a inscrição?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        A taxa de inscrição inicial é de 100 MT.
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Quanto tempo dura?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        Tem a duração total de 6 semanas (divididas em 2 ciclos de 3 semanas).
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Quais são os dias?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        Acontece às quintas, sextas, sábados e domingos.
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Como faço para me inscrever?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        Clica em qualquer botão do WhatsApp nesta página para falar diretamente connosco.
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="touch-target w-full px-4 py-3 text-left font-bold text-xs sm:text-sm text-white flex items-center justify-between gap-3">
+                        <span>Qual é o formato?</span>
+                        <i class="fa-solid fa-plus text-xs text-brand-emerald transition-transform shrink-0"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 text-xs text-gray-300 leading-relaxed">
+                        O formato está categorizado como A DEFINIR.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800/80 bg-black/80 py-8 px-4 text-center text-xs text-gray-500">
+        <p>© HN Mentorias — Transformar o WhatsApp numa Máquina de Vendas.</p>
+    </footer>
+
+    <!-- MOBILE ERGONOMIC FLOATING CTA BAR -->
+    <div id="mobile-floating-bar" class="fixed bottom-3 left-3 right-3 z-50 max-w-md mx-auto transition-all duration-300 transform translate-y-28">
+        <div class="glass-panel p-2.5 rounded-2xl border border-emerald-500/40 shadow-2xl flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0 pl-1">
+                <div class="w-8 h-8 rounded-full bg-brand-emerald/20 border border-brand-emerald flex items-center justify-center text-brand-emerald shrink-0">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                </div>
+                <div class="truncate">
+                    <div class="text-xs font-bold text-white truncate">HN Mentorias</div>
+                    <div class="text-[9px] text-brand-gold font-mono">Inscrição: 100 MT</div>
+                </div>
+            </div>
+            <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener noreferrer" class="touch-target px-4 py-2 rounded-xl bg-brand-emerald text-black font-extrabold text-xs hover:bg-emerald-400 transition-colors shrink-0 shadow-lg shadow-emerald-500/20">
+                FALAR NO WHATSAPP →
+            </a>
+        </div>
     </div>
 
-    <!-- 9. STICKY FLOATING GLASS PILL (Conversion Booster) -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." 
-           target="_blank"
-           class="btn-glow apple-glass-green rounded-full px-5 py-3.5 flex items-center space-x-3 text-white shadow-2xl border border-brand-green/40 hover:scale-105 transition-transform duration-300">
-            <svg class="w-5 h-5 text-brand-greenGlow shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001l-1.416 5.168 5.291-1.387c1.464.798 3.119 1.218 4.779 1.218h.004c5.506 0 9.989-4.478 9.99-9.984 0-2.667-1.038-5.175-2.923-7.062a9.923 9.923 0 00-7.067-2.938zm5.91 14.288c-.252.71-1.464 1.354-2.02 1.414-.51.055-1.173.085-3.376-.826-2.82-1.166-4.63-4.032-4.77-4.218-.14-.188-1.139-1.516-1.139-2.89 0-1.374.72-2.05.975-2.332.255-.282.556-.352.741-.352.186 0 .371.003.533.01.173.007.404-.066.632.482.235.565.801 1.954.87 2.096.07.141.116.308.023.493-.093.186-.14.301-.277.463-.14.162-.294.362-.42.486-.14.141-.286.294-.123.574.163.28 0.723 1.192 1.55 1.928 1.064.946 1.96 1.24 2.24 1.38.28.14.444.116.608-.07.163-.186.702-.818.888-1.1.186-.28.371-.233.626-.14.255.093 1.62.763 1.9.902.28.14.464.21.533.327.07.116.07.672-.182 1.382z"/>
-            </svg>
-            <span class="text-xs font-extrabold tracking-wide hidden sm:inline">Inscrever via WhatsApp</span>
-            <span class="text-xs font-extrabold tracking-wide sm:hidden">WhatsApp</span>
-        </a>
-    </div>
-
-    <!-- 10. APPLICATION JAVASCRIPT LOGIC -->
     <script>
-        // Diagnostic Questions Dataset
-        const quizData = [
+        // Exact 5 Diagnostic Questions
+        const quizQuestions = [
             {
                 q: "1. Quando alguém demonstra interesse no teu produto, o que normalmente acontece?",
-                options: [
+                opts: [
                     "A pessoa pergunta o preço e desaparece.",
                     "Conversamos um pouco, mas a venda não fecha.",
                     "Respondo às dúvidas, mas o processo demora muito."
@@ -854,7 +674,7 @@
             },
             {
                 q: "2. Quando o cliente pergunta o preço, como costumas responder?",
-                options: [
+                opts: [
                     "Envio o preço logo de imediato.",
                     "Envio um texto longo a explicar tudo de uma vez.",
                     "Tento fazer perguntas antes de dizer o valor."
@@ -862,7 +682,7 @@
             },
             {
                 q: "3. O que acontece quando o cliente diz ‘vou pensar’?",
-                options: [
+                opts: [
                     "Digo 'tudo bem' e fico a aguardar.",
                     "Não sei o que responder e a conversa morre.",
                     "Tento insistir, mas sinto que estou a chatear."
@@ -870,7 +690,7 @@
             },
             {
                 q: "4. Qual é a tua maior dificuldade ao vender pelo WhatsApp?",
-                options: [
+                opts: [
                     "Atrair pessoas verdadeiramente interessadas.",
                     "Conduzir a conversa até ao momento de fechar.",
                     "Fazer follow-up sem parecer chato."
@@ -878,7 +698,7 @@
             },
             {
                 q: "5. O que mais gostarias de melhorar nas tuas vendas?",
-                options: [
+                opts: [
                     "Ter um passo a passo claro para fechar mais vendas.",
                     "Aprender a contornar objeções com confiança.",
                     "Vender com mais facilidade e menos esforço."
@@ -886,111 +706,101 @@
             }
         ];
 
-        let currentQuestion = 0;
-        let userAnswers = [];
+        let currentQIndex = 0;
 
-        // START QUIZ
-        function startQuiz() {
-            document.getElementById('hero-section').classList.add('hidden');
-            const quizSec = document.getElementById('quiz-section');
-            quizSec.classList.remove('hidden');
-            currentQuestion = 0;
-            userAnswers = [];
-            renderQuestion();
-            window.scrollTo({ top: 100, behavior: 'smooth' });
-        }
+        function renderQuizStep() {
+            const viewport = document.getElementById('quiz-viewport');
+            const stepText = document.getElementById('quiz-step-text');
+            const barFill = document.getElementById('quiz-bar-fill');
 
-        // RENDER CURRENT QUESTION
-        function renderQuestion() {
-            const data = quizData[currentQuestion];
-            
-            // Counter & Progress Bar
-            document.getElementById('quiz-step-counter').innerText = `0${currentQuestion + 1}`;
-            const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
-            document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
+            const item = quizQuestions[currentQIndex];
 
-            // Question Text
-            document.getElementById('quiz-question-text').innerText = data.q;
+            stepText.innerText = `0${currentQIndex + 1} / 05`;
+            barFill.style.width = `${((currentQIndex + 1) / 5) * 100}%`;
 
-            // Options Container
-            const container = document.getElementById('quiz-options-container');
-            container.innerHTML = '';
-
-            data.options.forEach((optionText, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option w-full p-4 sm:p-5 rounded-2xl apple-glass border border-white/10 text-left text-sm sm:text-base font-semibold text-white flex items-center justify-between group';
-                btn.onclick = () => selectOption(idx);
-                
-                btn.innerHTML = `
-                    <span class="pr-4">${optionText}</span>
-                    <div class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:border-brand-gold group-hover:bg-brand-gold/20 transition-all">
-                        <svg class="w-3.5 h-3.5 text-brand-gold opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                        </svg>
+            viewport.innerHTML = `
+                <div class="space-y-5 animate-fadeIn">
+                    <h3 class="text-base sm:text-lg font-bold text-white leading-snug">
+                        ${item.q}
+                    </h3>
+                    <div class="space-y-2.5">
+                        ${item.opts.map((opt, i) => `
+                            <button onclick="handleOptionSelect()" class="touch-target w-full glass-card p-3.5 rounded-2xl text-left border border-gray-800 hover:border-brand-emerald active:border-brand-emerald flex items-center justify-between gap-3 group transition-all">
+                                <span class="text-xs sm:text-sm text-gray-200 group-hover:text-white font-medium leading-relaxed">
+                                    ${opt}
+                                </span>
+                                <i class="fa-solid fa-chevron-right text-xs text-brand-emerald opacity-60 group-hover:opacity-100 transition-opacity shrink-0"></i>
+                            </button>
+                        `).join('')}
                     </div>
-                `;
-                container.appendChild(btn);
-            });
+                </div>
+            `;
         }
 
-        // SELECT OPTION
-        function selectOption(index) {
-            userAnswers.push(index);
-            if (currentQuestion < quizData.length - 1) {
-                currentQuestion++;
-                renderQuestion();
+        function handleOptionSelect() {
+            if (currentQIndex < quizQuestions.length - 1) {
+                currentQIndex++;
+                renderQuizStep();
             } else {
-                finishQuiz();
+                showQuizResult();
             }
         }
 
-        // RESET QUIZ
-        function resetQuiz() {
-            document.getElementById('quiz-section').classList.add('hidden');
-            document.getElementById('hero-section').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function showQuizResult() {
+            const quizCard = document.getElementById('diagnostico');
+            const resultCard = document.getElementById('step-result');
+
+            quizCard.style.display = 'none';
+            resultCard.classList.remove('step-hidden');
+            resultCard.classList.add('step-visible');
+            resultCard.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // FINISH QUIZ & SHOW RESULT
-        function finishQuiz() {
-            document.getElementById('quiz-section').classList.add('hidden');
-            const resultSec = document.getElementById('result-section');
-            resultSec.classList.remove('hidden');
-            window.scrollTo({ top: 100, behavior: 'smooth' });
+        function revealMentorshipDetails(e) {
+            e.preventDefault();
+            const target = document.getElementById('mentoria');
+            target.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // REVEAL MENTORSHIP DETAILS
-        function revealMentorship() {
-            const mentorshipSec = document.getElementById('mentorship-section');
-            mentorshipSec.classList.remove('hidden');
-            
-            // Scroll smoothly to mentorship section
-            mentorshipSec.scrollIntoView({ behavior: 'smooth' });
+        function scrollToDiagnostico(e) {
+            e.preventDefault();
+            document.getElementById('diagnostico').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // FAQ ACCORDION TOGGLE
-        function toggleFaq(buttonElement) {
-            const content = buttonElement.nextElementSibling;
-            const icon = buttonElement.querySelector('span:last-child');
-            
-            const isOpen = content.classList.contains('open');
+        function toggleFaq(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
 
-            // Close all open accordions first
-            document.querySelectorAll('.accordion-content').forEach(el => {
-                el.classList.remove('open');
-            });
-            document.querySelectorAll('.faq-accordion-icon').forEach(el => {
-                el.innerText = '+';
+            document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+            document.querySelectorAll('#faq i').forEach(i => {
+                i.classList.remove('fa-minus');
+                i.classList.add('fa-plus');
             });
 
             if (!isOpen) {
-                content.classList.add('open');
-                icon.innerText = '−';
-            } else {
-                content.classList.remove('open');
-                icon.innerText = '+';
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
             }
         }
+
+        // Show/Hide Floating CTA on Scroll
+        window.addEventListener('scroll', () => {
+            const floatBar = document.getElementById('mobile-floating-bar');
+            if (window.scrollY > 350) {
+                floatBar.classList.remove('translate-y-28');
+                floatBar.classList.add('translate-y-0');
+            } else {
+                floatBar.classList.remove('translate-y-0');
+                floatBar.classList.add('translate-y-28');
+            }
+        });
+
+        // Initialize
+        window.onload = function() {
+            renderQuizStep();
+        };
     </script>
 </body>
 </html>
