@@ -1,250 +1,2066 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-MZ">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HN Mentorias | A Elite das Vendas no WhatsApp</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#25D366">
+<title>HN Mentorias — Transformar o WhatsApp numa Máquina de Vendas</title>
+<meta name="description" content="Mentoria prática de 2 semanas para quem já tem algo para vender e quer usar o WhatsApp de forma mais estratégica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-soft:#f6faf8;
+    --bg-deep:#0a1f17;
+    --text:#0a1f17;
+    --muted:#5b6b64;
+    --border:#e5eee9;
+    --border-2:#cfead9;
+
+    --wa:#25D366;
+    --wa-deep:#075E54;
+    --wa-emerald:#10b981;
+    --primary:#25D366;
+    --primary-dark:#128C7E;
+    --primary-soft:#eafaf1;
+    --grad-wa:linear-gradient(135deg,#25D366 0%,#128C7E 55%,#075E54 100%);
+    --grad-soft:linear-gradient(135deg,rgba(37,211,102,.14),rgba(7,94,84,.08));
+
+    --radius:16px;
+    --radius-lg:22px;
+    --max:1140px;
+    --shadow-sm:0 6px 20px -8px rgba(10,31,23,.12);
+    --shadow-md:0 24px 48px -22px rgba(10,31,23,.25);
+    --shadow-lg:0 40px 80px -30px rgba(10,31,23,.35);
+    --shadow-wa:0 14px 32px -14px rgba(37,211,102,.65);
+    --shadow-glow:0 0 60px -10px rgba(37,211,102,.5);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  ul{list-style:none}
+
+  /* ============================================================
+     CANVAS DE FUNDO
+     ============================================================ */
+  #bgCanvas{
+    position:fixed;inset:0;z-index:-3;pointer-events:none;
+    width:100%;height:100%;display:block;
+  }
+  .bg-fallback{
+    position:fixed;inset:0;z-index:-4;pointer-events:none;
+    background:
+      radial-gradient(900px 700px at 15% 10%, rgba(37,211,102,.08), transparent 60%),
+      radial-gradient(700px 500px at 90% 30%, rgba(7,94,84,.10), transparent 60%),
+      radial-gradient(800px 600px at 50% 100%, rgba(16,185,129,.07), transparent 60%),
+      #ffffff;
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(10,31,23,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,31,23,.04) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 80%);
+    animation:gridShift 60s linear infinite;
+  }
+  @keyframes gridShift{
+    from{background-position:0 0,0 0}
+    to{background-position:60px 60px,60px 60px}
+  }
+
+  main,header,footer{position:relative;z-index:1}
+  .container{width:min(var(--max),92%);margin-inline:auto}
+  .section{padding:clamp(3.5rem,8vw,6rem) 0}
+
+  /* ============================================================
+     TIPOGRAFIA
+     ============================================================ */
+  h1,h2,h3,h4{font-weight:800;letter-spacing:-.028em;line-height:1.15;color:var(--text)}
+  h1{font-size:clamp(2rem,5.4vw,3.5rem)}
+  h2{font-size:clamp(1.7rem,3.8vw,2.5rem)}
+  h3{font-size:clamp(1.02rem,1.8vw,1.15rem);font-weight:700;letter-spacing:-.015em}
+
+  .grad-text{
+    background:linear-gradient(120deg,#25D366 0%,#10b981 55%,#128C7E 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:200% 200%;
+    animation:gradShift 6s ease infinite;
+  }
+  @keyframes gradShift{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+
+  /* ============================================================
+     BOTÕES
+     ============================================================ */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+    padding:1rem 1.75rem;border-radius:999px;
+    font-weight:700;font-size:.95rem;letter-spacing:.005em;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, background .25s ease;
+    white-space:nowrap;min-height:52px;position:relative;overflow:hidden;
+  }
+  .btn svg{width:16px;height:16px;transition:transform .3s ease;flex-shrink:0}
+  .btn:hover svg{transform:translateX(3px)}
+
+  .btn-wa{
+    background:var(--grad-wa);color:#fff;
+    box-shadow:var(--shadow-wa),inset 0 1px 0 rgba(255,255,255,.2);
+  }
+  .btn-wa:hover{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 26px 50px -16px rgba(37,211,102,.9),inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .btn-wa::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
+    transform:translateX(-100%);transition:transform .9s ease;
+  }
+  .btn-wa:hover::after{transform:translateX(100%)}
+
+  .btn-ghost{
+    background:#fff;color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn-ghost:hover{border-color:var(--border-2);color:var(--primary-dark);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  header{
+    position:sticky;top:0;z-index:60;
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(18px) saturate(1.5);
+    -webkit-backdrop-filter:blur(18px) saturate(1.5);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  header.scrolled{
+    border-bottom-color:var(--border);
+    background:rgba(255,255,255,.92);
+    box-shadow:0 8px 30px -20px rgba(10,31,23,.2);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:1rem}
+  .logo{display:flex;align-items:center;gap:.7rem;font-weight:800;font-size:1rem;letter-spacing:-.02em}
+  .logo-mark{
+    width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+    background:var(--grad-wa);color:#fff;flex-shrink:0;position:relative;
+    box-shadow:0 10px 24px -10px rgba(37,211,102,.8);
+    transition:transform .4s ease;
+  }
+  .logo:hover .logo-mark{transform:rotateY(180deg)}
+  .logo-mark svg{width:20px;height:20px}
+  .logo-text{display:flex;flex-direction:column;line-height:1.15}
+  .logo-text strong{font-weight:800;font-size:1rem;letter-spacing:-.025em}
+  .logo-text small{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.02em}
+
+  .nav-links{display:flex;align-items:center;gap:1.8rem}
+  .nav-links a{color:var(--muted);font-size:.92rem;font-weight:500;transition:color .2s;position:relative}
+  .nav-links a::after{
+    content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;
+    background:var(--grad-wa);border-radius:2px;transition:width .3s ease;
+  }
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a:hover::after{width:100%}
+
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.7rem 1.15rem;border-radius:999px;
+    background:var(--grad-wa);color:#fff;
+    font-size:.85rem;font-weight:700;
+    box-shadow:0 10px 22px -10px rgba(37,211,102,.7);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .nav-cta:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 26px -10px rgba(37,211,102,.9)}
+  .nav-cta svg{width:15px;height:15px}
+
+  .burger{display:none;background:none;border:0;padding:.5rem;flex-direction:column;gap:5px}
+  .burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    position:relative;overflow:hidden;
+    padding:clamp(3rem,7vw,5.5rem) 0 clamp(3rem,6vw,4.5rem);
+  }
+  .hero-grid{
+    position:relative;z-index:1;
+    display:grid;grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:center;
+  }
+
+  .badge{
+    display:inline-flex;align-items:center;gap:.55rem;
+    padding:.42rem 1rem;border-radius:999px;
+    background:var(--primary-soft);color:var(--primary-dark);
+    font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    margin-bottom:1.4rem;border:1px solid rgba(37,211,102,.25);
+    box-shadow:0 6px 18px -10px rgba(37,211,102,.5);
+  }
+  .badge::before{
+    content:"";width:7px;height:7px;border-radius:50%;background:var(--primary);
+    box-shadow:0 0 10px var(--primary);animation:pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+
+  .hero h1{margin-bottom:1.4rem}
+  .hero h1 .light{color:var(--muted);font-weight:600;display:block;font-size:.58em;letter-spacing:-.02em;margin-bottom:.35rem}
+
+  .lead{
+    font-size:clamp(1rem,1.5vw,1.12rem);color:var(--muted);
+    max-width:52ch;line-height:1.7;margin-bottom:2rem;
+  }
+
+  .hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+  .hero-note{
+    font-size:.83rem;color:var(--muted);margin-top:1.1rem;
+    display:inline-flex;align-items:center;gap:.5rem;
+  }
+  .hero-note svg{width:14px;height:14px;color:var(--primary)}
+
+  /* ============================================================
+     MOCK 3D + GRÁFICO
+     ============================================================ */
+  .mock-wrap{perspective:1400px;perspective-origin:center;will-change:transform}
+  .mock{
+    position:relative;background:#fff;border:1px solid var(--border);
+    border-radius:24px;
+    box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.9);
+    overflow:hidden;
+    transform:rotateY(-8deg) rotateX(6deg) translateZ(0);
+    transition:transform .6s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;will-change:transform;
+  }
+  .mock:hover{transform:rotateY(-3deg) rotateX(3deg) translateZ(20px)}
+  .mock::before{
+    content:"";position:absolute;inset:0;border-radius:24px;
+    background:linear-gradient(135deg,rgba(37,211,102,.08),transparent 50%);
+    pointer-events:none;z-index:2;
+  }
+  .mock-bar{
+    display:flex;gap:.4rem;align-items:center;
+    padding:.9rem 1.1rem;border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#fbfdfc,#f6faf8);
+    position:relative;z-index:3;
+  }
+  .dot{width:10px;height:10px;border-radius:50%}
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .mock-bar-title{
+    margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;
+  }
+  .mock-body{padding:1.5rem;position:relative;z-index:3}
+  .mock-head{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:1rem;margin-bottom:1.4rem;
+  }
+  .mock-head h4{font-size:.95rem;font-weight:800;letter-spacing:-.02em}
+  .mock-head p{font-size:.78rem;color:var(--muted);margin-top:.15rem}
+  .mock-kpi{text-align:right}
+  .mock-kpi .val{
+    font-size:1.4rem;font-weight:900;letter-spacing:-.03em;
+    background:var(--grad-wa);-webkit-background-clip:text;background-clip:text;color:transparent;
+    line-height:1;
+  }
+  .mock-kpi .lbl{
+    font-size:.68rem;color:var(--muted);font-weight:600;margin-top:.25rem;
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .chart{
+    display:flex;align-items:flex-end;gap:.7rem;height:150px;
+    padding:0 .25rem;margin-bottom:1.3rem;position:relative;
+  }
+  .chart::before{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(37,211,102,.2),transparent);
+  }
+  .bar{
+    flex:1;border-radius:8px 8px 4px 4px;position:relative;
+    background:linear-gradient(180deg,#25D366,#128C7E);
+    transform-origin:bottom;
+    animation:barGrow 1s cubic-bezier(.2,.8,.2,1) backwards;
+    box-shadow:0 8px 20px -8px rgba(37,211,102,.6);
+  }
+  .bar::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:linear-gradient(180deg,rgba(255,255,255,.25),transparent 60%);
+  }
+  .bar.b1{height:42%;animation-delay:.1s}
+  .bar.b2{height:68%;animation-delay:.2s}
+  .bar.b3{height:36%;animation-delay:.3s}
+  .bar.b4{height:88%;animation-delay:.4s;background:linear-gradient(180deg,#10b981,#075E54)}
+  .bar.b5{height:58%;animation-delay:.5s}
+  .bar.b6{height:78%;animation-delay:.6s;background:linear-gradient(180deg,#10b981,#075E54)}
+  @keyframes barGrow{from{transform:scaleY(0);opacity:0}}
+  .chart-legend{
+    display:flex;justify-content:space-between;gap:.5rem;
+    font-size:.68rem;color:var(--muted);font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;padding:0 .25rem;
+  }
+  .mock-footer{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.4rem}
+  .mock-stat{
+    padding:.85rem;border-radius:12px;
+    background:var(--bg-soft);border:1px solid var(--border);
+  }
+  .mock-stat .v{font-size:1rem;font-weight:800;letter-spacing:-.02em;color:var(--text)}
+  .mock-stat .l{
+    font-size:.68rem;color:var(--muted);font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;margin-top:.15rem;
+  }
+  .deco-3d{
+    position:absolute;pointer-events:none;z-index:0;border-radius:18px;
+    background:linear-gradient(135deg,rgba(37,211,102,.18),rgba(7,94,84,.12));
+    border:1px solid rgba(37,211,102,.2);
+    box-shadow:0 20px 40px -20px rgba(37,211,102,.4);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  }
+  .deco-3d.a{width:90px;height:90px;top:10%;right:-30px;animation:float3d 8s ease-in-out infinite;transform:rotate(15deg)}
+  .deco-3d.b{width:70px;height:70px;bottom:15%;left:-25px;animation:float3d 10s ease-in-out infinite reverse;transform:rotate(-12deg)}
+  .deco-3d.c{
+    width:50px;height:50px;top:60%;right:6%;
+    animation:float3d 12s ease-in-out infinite;transform:rotate(35deg);
+    background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(37,211,102,.1));
+  }
+  @keyframes float3d{
+    0%,100%{transform:translateY(0) rotate(15deg)}
+    50%{transform:translateY(-18px) rotate(20deg)}
+  }
+
+  /* ============================================================
+     STATS STRIP
+     ============================================================ */
+  .stats-strip{
+    padding:2.5rem 0;
+    background:linear-gradient(180deg,transparent,rgba(246,250,248,.7),transparent);
+    position:relative;
+  }
+  .stats-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1.5rem;text-align:center;
+  }
+  .stat-value{
+    font-size:clamp(1.5rem,2.8vw,2rem);font-weight:900;letter-spacing:-.03em;
+    background:var(--grad-wa);-webkit-background-clip:text;background-clip:text;color:transparent;
+    line-height:1;
+  }
+  .stat-label{
+    font-size:.78rem;font-weight:600;color:var(--muted);
+    letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;
+  }
+
+  /* ============================================================
+     SECTION HEAD
+     ============================================================ */
+  .section-head{max-width:680px;margin:0 auto 3rem;text-align:center}
+  .section-head .eyebrow{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.38rem .95rem;border-radius:999px;
+    background:var(--primary-soft);color:var(--primary-dark);
+    font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    margin-bottom:1.1rem;border:1px solid rgba(37,211,102,.2);
+  }
+  .section-head h2{margin-bottom:1rem}
+  .section-head p{color:var(--muted);font-size:1.03rem;line-height:1.7}
+
+  /* ============================================================
+     PROBLEMA
+     ============================================================ */
+  .problem-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1rem;max-width:1000px;margin-inline:auto;
+  }
+  .problem-item{
+    display:flex;gap:.9rem;align-items:flex-start;
+    padding:1.3rem 1.4rem;background:rgba(255,255,255,.85);
+    border:1px solid var(--border);border-radius:var(--radius);
+    transition:all .4s cubic-bezier(.2,.8,.2,1);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  }
+  .problem-item:hover{
+    border-color:var(--border-2);
+    transform:translateY(-5px) scale(1.02);
+    box-shadow:var(--shadow-md);
+  }
+  .problem-item .x{
+    flex-shrink:0;width:26px;height:26px;border-radius:8px;
+    display:grid;place-items:center;background:#fef2f2;color:#ef4444;margin-top:2px;
+  }
+  .problem-item .x svg{width:12px;height:12px}
+  .problem-item p{font-size:.93rem;color:#2b3a34;line-height:1.55}
+
+  .problem-conclusion{
+    max-width:640px;margin:3rem auto 0;text-align:center;
+    padding:1.8rem 2rem;border-radius:var(--radius-lg);
+    background:var(--grad-soft);border:1px solid var(--border-2);
+    box-shadow:0 20px 40px -25px rgba(37,211,102,.35);
+  }
+  .problem-conclusion p{font-size:1.05rem;color:var(--text);line-height:1.6;font-weight:500}
+  .problem-conclusion strong{color:var(--primary-dark);font-weight:800}
+
+  /* ============================================================
+     CARDS 3D
+     ============================================================ */
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem}
+  .card{
+    background:rgba(255,255,255,.9);
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:1.7rem;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease,border-color .3s ease;
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    transform-style:preserve-3d;will-change:transform;
+    position:relative;overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:var(--grad-wa);transform:scaleX(0);transform-origin:left;
+    transition:transform .4s ease;
+  }
+  .card:hover::before{transform:scaleX(1)}
+  .card:hover{border-color:var(--border-2);box-shadow:var(--shadow-md),var(--shadow-glow)}
+  .card-icon{
+    width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+    background:var(--primary-soft);color:var(--primary-dark);margin-bottom:1.1rem;
+    transition:transform .4s ease;transform:translateZ(20px);
+  }
+  .card:hover .card-icon{transform:translateZ(30px) rotate(-6deg) scale(1.08)}
+  .card-icon svg{width:22px;height:22px}
+  .card h3{margin-bottom:.6rem;position:relative;z-index:1}
+  .card p{color:var(--muted);font-size:.93rem;line-height:1.6;position:relative;z-index:1}
+
+  /* ============================================================
+     STEPS
+     ============================================================ */
+  .steps-wrap{max-width:720px;margin-inline:auto}
+  .step{
+    display:flex;gap:1.2rem;align-items:flex-start;
+    padding:1.6rem 0;border-bottom:1px solid var(--border);
+    transition:transform .3s ease;
+  }
+  .step:hover{transform:translateX(6px)}
+  .step:last-child{border-bottom:0}
+  .step-num{
+    flex-shrink:0;width:42px;height:42px;border-radius:50%;
+    display:grid;place-items:center;font-weight:800;font-size:.95rem;
+    background:var(--grad-wa);color:#fff;
+    box-shadow:0 10px 22px -8px rgba(37,211,102,.7);
+    transition:transform .3s ease;
+  }
+  .step:hover .step-num{transform:rotate(-10deg) scale(1.1)}
+  .step h3{margin-bottom:.35rem;font-size:1.08rem}
+  .step p{color:var(--muted);font-size:.94rem;line-height:1.6}
+
+  .cycles{
+    display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+    max-width:720px;margin:2rem auto 0;
+  }
+  .cycle-card{
+    padding:1.5rem;border-radius:var(--radius);
+    border:1px solid var(--border-2);text-align:center;
+    background:var(--grad-soft);
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+    transform-style:preserve-3d;
+  }
+  .cycle-card:hover{transform:translateY(-6px) scale(1.03);box-shadow:var(--shadow-md),var(--shadow-glow)}
+  .cycle-num{
+    font-size:.7rem;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--primary-dark);margin-bottom:.4rem;
+  }
+  .cycle-card h4{font-size:1.05rem;margin-bottom:.35rem}
+  .cycle-card p{font-size:.85rem;color:var(--muted);line-height:1.5}
+
+  /* ============================================================
+     INVESTIMENTO
+     ============================================================ */
+  .invest{
+    max-width:600px;margin-inline:auto;
+    border-radius:var(--radius-lg);border:1px solid var(--border-2);
+    background:linear-gradient(180deg,rgba(37,211,102,.05),rgba(255,255,255,.95));
+    padding:clamp(1.6rem,4vw,2.4rem);position:relative;overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(37,211,102,.4);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+  .invest::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--wa),transparent);
+    animation:shine 3s ease infinite;
+  }
+  @keyframes shine{0%,100%{opacity:.6}50%{opacity:1}}
+  .invest-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1rem 0;border-bottom:1px solid var(--border);gap:1rem;
+  }
+  .invest-row:last-of-type{border-bottom:0}
+  .invest-row .label{font-size:.95rem;color:var(--muted);font-weight:500}
+  .invest-row .price{font-size:1.08rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+  .invest-total{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:1.2rem;padding:1.3rem 1.4rem;border-radius:var(--radius);
+    background:var(--grad-soft);border:1px solid var(--border-2);gap:1rem;
+    transition:transform .3s ease;
+  }
+  .invest-total:hover{transform:scale(1.02)}
+  .invest-total .label{
+    font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--primary-dark);
+  }
+  .invest-total .price{
+    font-size:1.85rem;font-weight:900;letter-spacing:-.035em;
+    background:var(--grad-wa);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .invest-note{text-align:center;margin-top:1.4rem;font-size:.82rem;color:var(--muted)}
+
+  /* ============================================================
+     FAQ
+     ============================================================ */
+  .faq{max-width:760px;margin-inline:auto;display:flex;flex-direction:column;gap:.7rem}
+  .faq-item{
+    border-radius:var(--radius);border:1px solid var(--border);
+    background:rgba(255,255,255,.9);overflow:hidden;
+    transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease;
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  }
+  .faq-item:hover{border-color:var(--border-2);transform:translateY(-2px)}
+  .faq-item.open{border-color:var(--border-2);box-shadow:var(--shadow-sm)}
+  .faq-q{
+    width:100%;display:flex;justify-content:space-between;align-items:center;
+    gap:1rem;padding:1.15rem 1.4rem;text-align:left;
+    font-weight:600;font-size:.98rem;color:var(--text);letter-spacing:-.01em;
+  }
+  .faq-q .toggle{
+    flex-shrink:0;width:28px;height:28px;border-radius:50%;
+    display:grid;place-items:center;background:var(--bg-soft);
+    border:1px solid var(--border);transition:transform .3s ease,background .3s,border-color .3s;
+  }
+  .faq-item.open .faq-q .toggle{
+    transform:rotate(45deg);background:var(--primary-soft);
+    border-color:var(--border-2);color:var(--primary-dark);
+  }
+  .faq-q .toggle svg{width:13px;height:13px}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.2,.8,.2,1)}
+  .faq-a-inner{padding:0 1.4rem 1.3rem;color:var(--muted);font-size:.93rem;line-height:1.7}
+  .faq-a-inner strong{color:var(--text)}
+  .faq-a-inner a{color:var(--primary-dark);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+
+  /* ============================================================
+     CTA FINAL
+     ============================================================ */
+  .cta-final{
+    position:relative;overflow:hidden;border-radius:28px;
+    padding:clamp(2.5rem,6vw,4rem) clamp(1.5rem,5vw,3.5rem);
+    background:linear-gradient(135deg,#0a1f17 0%,#075E54 55%,#128C7E 100%);
+    color:#fff;text-align:center;
+    box-shadow:0 40px 80px -40px rgba(7,94,84,.7);
+  }
+  .cta-final::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 10%,rgba(37,211,102,.35),transparent 45%),
+               radial-gradient(circle at 90% 90%,rgba(37,211,102,.2),transparent 50%);
+    pointer-events:none;
+  }
+  .cta-final::after{
+    content:"";position:absolute;inset:-2px;border-radius:28px;
+    background:linear-gradient(120deg,transparent 40%,rgba(37,211,102,.4) 50%,transparent 60%);
+    background-size:200% 100%;
+    animation:borderShine 4s ease infinite;
+    pointer-events:none;z-index:-1;
+  }
+  @keyframes borderShine{
+    0%{background-position:100% 0}
+    100%{background-position:-100% 0}
+  }
+  .cta-final > *{position:relative;z-index:1}
+  .cta-final .eyebrow{
+    display:inline-block;padding:.4rem 1rem;border-radius:999px;
+    background:rgba(37,211,102,.18);border:1px solid rgba(37,211,102,.4);
+    color:#6ee7b7;font-size:.72rem;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:1.3rem;
+  }
+  .cta-final h2{
+    font-size:clamp(1.6rem,3.6vw,2.3rem);letter-spacing:-.03em;
+    line-height:1.15;color:#fff;margin-bottom:1rem;
+  }
+  .cta-final h2 .grad-text{
+    background:linear-gradient(120deg,#6ee7b7,#25D366);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:none;
+  }
+  .cta-final p{color:rgba(255,255,255,.85);font-size:1.02rem;max-width:52ch;margin:0 auto 2rem;line-height:1.7}
+  .cta-final .btn-wa{background:#fff;color:#075E54;box-shadow:0 14px 32px -12px rgba(0,0,0,.5)}
+  .cta-final .btn-wa:hover{background:#f0fdf4;color:#075E54;transform:translateY(-3px) scale(1.03)}
+  .cta-help{
+    display:inline-flex;align-items:center;gap:.55rem;
+    margin-top:1.5rem;padding:.75rem 1.15rem;border-radius:999px;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+    font-size:.85rem;color:rgba(255,255,255,.85);
+    max-width:100%;text-align:left;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+  .cta-help svg{width:15px;height:15px;color:#6ee7b7;flex-shrink:0}
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer{background:#0a1f17;color:#9aa1bd;padding:3rem 0 1.8rem;margin-top:4rem;position:relative;overflow:hidden}
+  footer::before{
+    content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+    width:600px;height:200px;border-radius:50%;
+    background:radial-gradient(circle,rgba(37,211,102,.15),transparent 70%);
+    pointer-events:none;
+  }
+  .footer-top{
+    display:grid;grid-template-columns:1.6fr repeat(3,1fr);
+    gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.08);
+    position:relative;z-index:1;
+  }
+  footer .logo{color:#fff;margin-bottom:1rem}
+  footer .logo-text strong{color:#fff}
+  footer .logo-text small{color:#8a94b3}
+  footer p{font-size:.9rem;color:#8a94b3;max-width:36ch;line-height:1.6}
+  .footer-col h4{
+    color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;margin-bottom:1.1rem;
+  }
+  .footer-col a{
+    display:block;font-size:.9rem;margin-bottom:.7rem;
+    color:#8a94b3;transition:color .2s,transform .2s;
+  }
+  .footer-col a:hover{color:#25D366;transform:translateX(4px)}
+  .footer-bottom{
+    padding-top:1.6rem;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:1rem;font-size:.82rem;color:#6b7590;
+    position:relative;z-index:1;
+  }
+
+  /* ============================================================
+     REVEAL + PARALLAX
+     ============================================================ */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.zoom{transform:scale(.94) translateY(20px)}
+  .reveal.zoom.in{transform:none}
+  .reveal.left{transform:translateX(-30px)}
+  .reveal.left.in{transform:none}
+  .reveal.right{transform:translateX(30px)}
+  .reveal.right.in{transform:none}
+
+  [data-parallax]{will-change:transform}
+
+  /* ============================================================
+     QUIZ OVERLAY
+     ============================================================ */
+  .quiz-overlay{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(5,16,12,.96);
+    backdrop-filter:blur(24px) saturate(1.4);
+    -webkit-backdrop-filter:blur(24px) saturate(1.4);
+    opacity:0;visibility:hidden;
+    transition:opacity .5s ease,visibility .5s ease;
+    overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  }
+  .quiz-overlay.open{opacity:1;visibility:visible}
+  .quiz-overlay::before{
+    content:"";position:fixed;inset:0;
+    background:
+      radial-gradient(700px 500px at 50% 0%, rgba(37,211,102,.18), transparent 60%),
+      radial-gradient(600px 400px at 20% 100%, rgba(7,94,84,.22), transparent 60%);
+    pointer-events:none;
+    transition:background 1.2s ease;
+  }
+  .quiz-overlay[data-step="1"]::before{
+    background:radial-gradient(700px 500px at 70% 10%, rgba(37,211,102,.22), transparent 60%),
+               radial-gradient(600px 400px at 10% 100%, rgba(16,185,129,.18), transparent 60%);
+  }
+  .quiz-overlay[data-step="2"]::before{
+    background:radial-gradient(700px 500px at 30% 0%, rgba(37,211,102,.24), transparent 60%),
+               radial-gradient(600px 400px at 80% 100%, rgba(5,150,105,.2), transparent 60%);
+  }
+  .quiz-overlay[data-step="3"]::before{
+    background:radial-gradient(700px 500px at 60% 20%, rgba(37,211,102,.26), transparent 60%),
+               radial-gradient(600px 400px at 20% 100%, rgba(16,185,129,.22), transparent 60%);
+  }
+  .quiz-overlay[data-step="4"]::before{
+    background:radial-gradient(700px 500px at 40% 0%, rgba(37,211,102,.28), transparent 60%),
+               radial-gradient(600px 400px at 90% 100%, rgba(5,150,105,.24), transparent 60%);
+  }
+  .quiz-overlay[data-step="result"]::before{
+    background:radial-gradient(900px 600px at 50% 20%, rgba(37,211,102,.3), transparent 60%),
+               radial-gradient(700px 500px at 50% 100%, rgba(16,185,129,.24), transparent 60%);
+  }
+
+  .quiz-shell{
+    position:relative;min-height:100svh;
+    display:flex;flex-direction:column;
+    padding:1.3rem 0 2rem;z-index:1;
+  }
+  .quiz-top{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;padding:0 5%;margin-bottom:2.5rem;
+  }
+  .quiz-close{
+    width:42px;height:42px;border-radius:50%;
+    display:grid;place-items:center;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    color:#fff;transition:all .25s ease;flex-shrink:0;
+  }
+  .quiz-close:hover{background:rgba(255,255,255,.12);border-color:rgba(37,211,102,.5);transform:rotate(90deg)}
+  .quiz-close svg{width:16px;height:16px}
+
+  .quiz-progress-wrap{
+    flex:1;max-width:240px;
+    display:flex;flex-direction:column;gap:.5rem;
+  }
+  .quiz-count{
+    font-size:.78rem;font-weight:700;letter-spacing:.14em;
+    color:rgba(255,255,255,.55);text-align:right;
+  }
+  .quiz-count strong{color:#25D366;font-weight:800}
+  .quiz-bar{
+    height:3px;border-radius:3px;
+    background:rgba(255,255,255,.1);
+    overflow:hidden;position:relative;
+  }
+  .quiz-bar-fill{
+    position:absolute;inset:0;width:0;
+    background:linear-gradient(90deg,#25D366,#5eead4);
+    border-radius:3px;
+    transition:width .6s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 0 14px rgba(37,211,102,.7);
+  }
+
+  .quiz-content{
+    flex:1;display:flex;flex-direction:column;justify-content:center;
+    max-width:720px;width:92%;margin-inline:auto;padding-bottom:2rem;
+  }
+
+  .q-view{display:none;animation:qIn .55s cubic-bezier(.2,.8,.2,1)}
+  .q-view.active{display:block}
+  @keyframes qIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+  .q-num{
+    font-size:.72rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:#25D366;margin-bottom:1rem;opacity:.9;
+  }
+  .q-text{
+    font-size:clamp(1.4rem,3.6vw,2.1rem);font-weight:800;
+    letter-spacing:-.028em;line-height:1.2;color:#fff;
+    margin-bottom:2rem;max-width:22ch;
+  }
+  .q-options{display:flex;flex-direction:column;gap:.7rem}
+  .q-option{
+    display:flex;align-items:flex-start;gap:1rem;
+    padding:1.15rem 1.3rem;border-radius:var(--radius);
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+    text-align:left;font-size:.95rem;
+    color:rgba(255,255,255,.85);font-weight:500;line-height:1.5;
+    transition:all .28s cubic-bezier(.2,.8,.2,1);
+    min-height:60px;position:relative;overflow:hidden;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+  .q-option:hover{
+    border-color:rgba(37,211,102,.5);
+    background:rgba(37,211,102,.08);
+    transform:translateX(4px);
+  }
+  .q-option .letter{
+    flex-shrink:0;width:28px;height:28px;border-radius:8px;
+    display:grid;place-items:center;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+    font-size:.75rem;font-weight:800;
+    color:rgba(255,255,255,.6);
+    transition:all .3s ease;margin-top:1px;
+  }
+  .q-option:hover .letter,
+  .q-option.selected .letter{
+    background:rgba(37,211,102,.25);
+    border-color:rgba(37,211,102,.6);
+    color:#25D366;
+  }
+  .q-option.selected{
+    border-color:#25D366;
+    background:linear-gradient(135deg,rgba(37,211,102,.15),rgba(7,94,84,.1));
+    transform:translateX(4px);
+    box-shadow:0 10px 30px -14px rgba(37,211,102,.6);
+  }
+  .q-option.selected::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(120deg,transparent 30%,rgba(37,211,102,.2) 50%,transparent 70%);
+    animation:shine2 .9s ease;pointer-events:none;
+  }
+  @keyframes shine2{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+  .q-option .check-ico{
+    margin-left:auto;flex-shrink:0;width:18px;height:18px;
+    color:#25D366;opacity:0;transform:scale(.4);
+    transition:all .3s ease;align-self:center;
+  }
+  .q-option.selected .check-ico{opacity:1;transform:scale(1)}
+
+  /* ---------- Resultado ---------- */
+  .result-view{display:none;animation:qIn .7s cubic-bezier(.2,.8,.2,1);text-align:center}
+  .result-view.active{display:block}
+
+  .result-icon{
+    width:70px;height:70px;margin:0 auto 1.5rem;
+    border-radius:22px;display:grid;place-items:center;
+    background:var(--grad-wa);
+    box-shadow:0 22px 50px -20px rgba(37,211,102,.7),
+               inset 0 1px 0 rgba(255,255,255,.25);
+    animation:pop .7s cubic-bezier(.2,.8,.2,1);
+  }
+  .result-icon svg{width:32px;height:32px;color:#fff}
+  @keyframes pop{
+    0%{transform:scale(.5) rotate(-15deg);opacity:0}
+    60%{transform:scale(1.08) rotate(3deg)}
+    100%{transform:scale(1) rotate(0);opacity:1}
+  }
+
+  .result-view h2{
+    font-size:clamp(1.6rem,4.2vw,2.4rem);
+    margin-bottom:1.4rem;color:#fff;
+  }
+  .result-msg{
+    font-size:clamp(1rem,2vw,1.13rem);
+    color:rgba(255,255,255,.85);
+    line-height:1.7;max-width:56ch;margin:0 auto 2.5rem;
+    padding:1.4rem 1.6rem;border-radius:var(--radius);
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+  .result-msg strong{color:#fff;font-weight:700}
+
+  .result-flow-label{
+    font-size:.72rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:rgba(255,255,255,.45);
+    margin-bottom:1rem;
+  }
+  .result-flow{
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:.5rem .55rem;margin-bottom:2rem;
+  }
+  .result-flow .flow-step{
+    display:inline-flex;align-items:center;padding:.55rem .95rem;
+    border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.06em;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    color:rgba(255,255,255,.85);
+    opacity:0;transform:translateY(14px);
+    transition:opacity .5s ease,transform .5s ease,background .3s,border-color .3s;
+  }
+  .result-flow .flow-step.on{
+    opacity:1;transform:none;
+    background:linear-gradient(135deg,rgba(37,211,102,.22),rgba(7,94,84,.16));
+    border-color:rgba(37,211,102,.5);
+    color:#fff;
+  }
+  .result-flow .flow-sep{
+    color:rgba(255,255,255,.35);font-weight:700;opacity:0;
+    transition:opacity .4s ease;font-size:.85rem;
+  }
+  .result-flow .flow-sep.on{opacity:.7}
+
+  .result-conclusion{
+    margin:0 auto 2rem;font-size:1.05rem;color:#fff;font-weight:600;
+    max-width:40ch;line-height:1.5;
+  }
+  .result-conclusion .grad-text{
+    background:linear-gradient(120deg,#6ee7b7,#25D366);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:none;font-weight:800;
+  }
+  .result-actions{
+    display:flex;flex-direction:column;align-items:center;gap:1rem;
+  }
+  .result-continue{
+    font-size:.85rem;color:rgba(255,255,255,.6);
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.7rem 1.2rem;border-radius:999px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    transition:all .25s ease;
+  }
+  .result-continue:hover{color:#fff;border-color:rgba(37,211,102,.5)}
+  .result-continue svg{width:14px;height:14px}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+    .bg-grid{animation:none}
+    [data-parallax]{transform:none!important}
+  }
+
+  /* ============================================================
+     RESPONSIVO
+     ============================================================ */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:2.5rem;text-align:center}
+    .lead{margin-inline:auto}
+    .hero-actions{justify-content:center}
+    .mock-wrap{margin-inline:auto;max-width:520px}
+    .mock{transform:none!important}
+    .mock:hover{transform:none!important}
+    .deco-3d{display:none}
+    .footer-top{grid-template-columns:1fr 1fr}
+  }
+
+  @media (max-width:760px){
+    .nav-links{display:none}
+    .nav-cta{display:none}
+    .burger{display:flex}
+    .nav-links.show{
+      display:flex;position:absolute;top:72px;left:0;right:0;
+      flex-direction:column;gap:0;align-items:stretch;
+      background:#fff;border-bottom:1px solid var(--border);
+      padding:.5rem 0 1rem;
+      box-shadow:0 20px 40px -20px rgba(10,31,23,.2);
+    }
+    .nav-links.show a{padding:1rem 5%;border-bottom:1px solid var(--border)}
+    .nav-links.show a:last-child{border-bottom:0}
+  }
+
+  @media (max-width:640px){
+    .section{padding:3rem 0}
+    .section-head{margin-bottom:2.2rem}
+    .section-head p{font-size:.96rem}
+    .hero{padding:2.5rem 0}
+    .btn{padding:.9rem 1.4rem;font-size:.9rem}
+    .hero-actions .btn{width:100%}
+    .stats-grid{grid-template-columns:1fr 1fr;gap:1.2rem}
+    .cycles{grid-template-columns:1fr}
+    .invest-total{flex-direction:column;gap:.5rem;text-align:center}
+    .invest-total .price{font-size:1.65rem}
+    .cta-help{border-radius:14px;padding:.85rem 1rem;font-size:.8rem}
+    .footer-top{grid-template-columns:1fr;gap:2rem}
+    .footer-bottom{justify-content:center;text-align:center}
+    .nav{height:64px}
+    .nav-links.show{top:64px}
+    .chart{height:120px;gap:.5rem}
+    .mock-head{flex-direction:column;align-items:flex-start;gap:.6rem}
+    .mock-kpi{text-align:left}
+
+    .quiz-top{padding:0 4.5%;margin-bottom:2rem}
+    .quiz-content{width:91%}
+    .q-text{margin-bottom:1.6rem}
+    .q-option{padding:1.05rem 1.15rem;font-size:.9rem}
+    .result-msg{padding:1.2rem 1.2rem;font-size:.98rem}
+    .result-flow .flow-step{padding:.5rem .8rem;font-size:.68rem}
+  }
+
+  @supports(padding:max(0px)){
+    .quiz-shell{padding-top:max(1.3rem, env(safe-area-inset-top))}
+    header{padding-top:max(0px, env(safe-area-inset-top))}
+  }
+</style>
 </head>
 <body>
 
-    <!-- Fundo Surreal de Partículas e Canvas Fluid -->
-    <canvas id="bg-canvas"></canvas>
+<!-- ================= FUNDO ================= -->
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+<div class="bg-fallback" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-    <!-- Aura Glows de Fundo -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-    <div class="ambient-glow glow-3"></div>
-
-    <!-- Container Principal -->
-    <div class="app-wrapper">
-
-        <!-- HEADER / NAVBAR -->
-        <header class="navbar">
-            <div class="nav-brand">
-                <span class="brand-badge">HN</span>
-                <span class="brand-name">MENTORIAS</span>
-            </div>
-            <div class="nav-status">
-                <span class="pulse-dot"></span>
-                <span>Inscrições Abertas</span>
-            </div>
-        </header>
-
-        <!-- HERO SECTION -->
-        <section class="hero-section">
-            <div class="tag-pill">
-                <span class="sparkle">✦</span> Método Exclusivo de Vendas
-            </div>
-            
-            <h1 class="hero-title">
-                Transforme o teu WhatsApp numa <span class="text-gradient">Máquina de Vendas</span>
-            </h1>
-
-            <p class="hero-description">
-                Domine a psicologia de fechamento, contorne objeções complexas e automatize a sua taxa de conversão com a mentoria mais avançada do mercado.
-            </p>
-
-            <div class="hero-cta-group">
-                <a href="#diagnostico" class="btn-primary-glow">
-                    <span>INICIAR DIAGNÓSTICO GRÁTIS</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-                <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20HN%20Mentorias" target="_blank" class="btn-glass">
-                    <span>Falar no WhatsApp</span>
-                </a>
-            </div>
-
-            <!-- Métricas Rápidas -->
-            <div class="metrics-row">
-                <div class="metric-item">
-                    <span class="metric-value" data-target="300">+0%</span>
-                    <span class="metric-label">Aumento em Conversões</span>
-                </div>
-                <div class="metric-divider"></div>
-                <div class="metric-item">
-                    <span class="metric-value">4.9/5★</span>
-                    <span class="metric-label">Classificação dos Alunos</span>
-                </div>
-                <div class="metric-divider"></div>
-                <div class="metric-item">
-                    <span class="metric-value">30 Vagas</span>
-                    <span class="metric-label">Por Turma Exclusiva</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- DIAGNÓSTICO INTERATIVO (QUIZ) -->
-        <section id="diagnostico" class="section-container">
-            <div class="glass-card tilt-card" id="quiz-card">
-                <div class="quiz-header">
-                    <div>
-                        <span class="section-tag">DIAGNÓSTICO RÁPIDO</span>
-                        <h2 class="section-title">Análise de Performance</h2>
-                    </div>
-                    <span class="quiz-step-counter" id="quiz-counter">01 / 05</span>
-                </div>
-
-                <div class="progress-bar-track">
-                    <div class="progress-bar-fill" id="quiz-progress"></div>
-                </div>
-
-                <div class="quiz-content" id="quiz-content">
-                    <!-- Conteúdo dinâmico injetado via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- GRÁFICO INTERATIVO DE IMPACTO -->
-        <section class="section-container">
-            <div class="glass-card">
-                <span class="section-tag">RESULTADOS COMPROVADOS</span>
-                <h2 class="section-title">O Impacto do Método nas Suas Vendas</h2>
-                <p class="section-sub">Comparativo do faturamento médio mensal antes e depois da HN Mentorias.</p>
-
-                <div class="chart-container">
-                    <canvas id="growthChart"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <!-- TESTEMUNHOS DE ALUNOS (CARROSSEL SURREAL) -->
-        <section class="section-container">
-            <div class="text-center" style="text-align: center; margin-bottom: 30px;">
-                <span class="section-tag">PROVA SOCIAL</span>
-                <h2 class="section-title">O Que Dizem Nossos Mentorados</h2>
-            </div>
-
-            <div class="testimonials-grid">
-                <div class="glass-card testimonial-card tilt-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Recuperei o investimento da mentoria nos primeiros 4 dias aplicando a técnica de contorno de objeções no WhatsApp!"</p>
-                    <div class="user-profile">
-                        <div class="avatar-glow">S</div>
-                        <div>
-                            <strong class="user-name">Sérgio Mabunda</strong>
-                            <span class="user-role">Empreendedor Digital</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card testimonial-card tilt-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"O método de qualificação de leads mudou totalmente o meu negócio. Deixei de perder tempo com curiosos."</p>
-                    <div class="user-profile">
-                        <div class="avatar-glow" style="background: var(--gradient-emerald);">A</div>
-                        <div>
-                            <strong class="user-name">Amélia Cossa</strong>
-                            <span class="user-role">Consultora de Serviços</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card testimonial-card tilt-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"A mentoria mais prática e direta que já fiz. O suporte e a clareza nas estratégias são incomparáveis."</p>
-                    <div class="user-profile">
-                        <div class="avatar-glow" style="background: var(--gradient-gold);">C</div>
-                        <div>
-                            <strong class="user-name">Cláudio Nhantumbo</strong>
-                            <span class="user-role">Gestor de Vendas</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PREÇO & OFERTA -->
-        <section class="section-container">
-            <div class="glass-card price-box-glow text-center">
-                <span class="badge-gold">INSCRIÇÕES ABERTAS</span>
-                <h2 class="price-title">Invista no Seu Crescimento</h2>
-                <p style="color: var(--text-dim); margin-bottom: 24px;">Acesso completo a 6 semanas de mentoria prática e acompanhamento.</p>
-
-                <div class="price-details">
-                    <div class="price-line">
-                        <span>Inscrição Inicial</span>
-                        <strong>100 MT</strong>
-                    </div>
-                    <div class="price-line">
-                        <span>1.º Ciclo (Semana 1 a 3)</span>
-                        <strong>269 MT</strong>
-                    </div>
-                    <div class="price-line">
-                        <span>2.º Ciclo (Semana 4 a 6)</span>
-                        <strong>269 MT</strong>
-                    </div>
-                </div>
-
-                <div class="price-total-display">
-                    <span class="total-label">Investimento Total</span>
-                    <span class="total-amount">638 MT</span>
-                </div>
-
-                <a href="https://wa.me/258833063485?text=Ol%C3%A1%21%20Quero%20garantir%20minha%20vaga%20na%20mentoria%20HN%20Mentorias." target="_blank" class="btn-primary-glow btn-full">
-                    GARANTIR MINHA VAGA AGORA
-                </a>
-            </div>
-        </section>
-
-        <!-- FAQ ACCORDION -->
-        <section class="section-container">
-            <h2 class="section-title text-center" style="margin-bottom: 30px;">Perguntas Frequentes</h2>
-            
-            <div class="faq-accordion">
-                <div class="faq-item glass-card">
-                    <button class="faq-trigger" onclick="toggleFaq(this)">
-                        <span>Como funciona o formato da mentoria?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-content">
-                        <p>A mentoria é totalmente prática, dividida em 2 ciclos com sessões estratégicas de quinta a domingo, focando na aplicação direta no seu negócio.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item glass-card">
-                    <button class="faq-trigger" onclick="toggleFaq(this)">
-                        <span>E se eu não tiver experiência em vendas?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-content">
-                        <p>O método é desenhado passo a passo, desde a abordagem inicial até às técnicas avançadas de fechamento e psicologia do cliente.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item glass-card">
-                    <button class="faq-trigger" onclick="toggleFaq(this)">
-                        <span>Quais são os métodos de pagamento?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-content">
-                        <p>Aceitamos pagamentos via M-Pesa, e-Mola e transferência bancária simples divididos por ciclos.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="footer-container">
-            <p>© 2026 <strong>HN Mentorias</strong>. Todos os direitos reservados.</p>
-        </footer>
-
-    </div>
-
-    <!-- BOTÃO FLUTUANTE ULTRA SLIM -->
-    <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20estou%20no%20site%20da%20HN%20Mentorias%20e%20quero%20falar%20com%20um%20consultor." target="_blank" class="float-whatsapp">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        <span>Falar no WhatsApp</span>
+<!-- ================= HEADER ================= -->
+<header id="siteHeader">
+  <div class="container nav">
+    <a href="#" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.93 7.93 0 0 0 3.84.98h.01a7.94 7.94 0 0 0 5.55-13.56zM12.05 18.5h-.01a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.59 6.59 0 0 1 10.24-8.16 6.55 6.55 0 0 1 1.94 4.66 6.6 6.6 0 0 1-6.58 6.59z"/></svg>
+      </span>
+      <span class="logo-text">
+        <strong>HN Mentorias</strong>
+        <small>Máquina de Vendas · WhatsApp</small>
+      </span>
     </a>
 
-    <!-- Chart.js CDN para o gráfico surreal -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
+    <nav class="nav-links" id="navLinks">
+      <a href="#aprender">O que vais aprender</a>
+      <a href="#estrutura">Estrutura</a>
+      <a href="#investimento">Investimento</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me."
+       target="_blank" rel="noopener" class="nav-cta">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.93 7.93 0 0 0 3.84.98h.01a7.94 7.94 0 0 0 5.55-13.56zM12.05 18.5h-.01a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.59 6.59 0 0 1 10.24-8.16 6.55 6.55 0 0 1 1.94 4.66 6.6 6.6 0 0 1-6.58 6.59z"/></svg>
+      Inscrever-me
+    </a>
+
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div data-parallax="0.15">
+      <span class="badge">Mentoria · 30 vagas</span>
+
+      <h1>
+        <span class="light">Antes de falar sobre a mentoria…</span>
+        vamos descobrir como estão as tuas <span class="grad-text">vendas pelo WhatsApp</span>.
+      </h1>
+
+      <p class="lead">
+        Responde a 5 perguntas rápidas e descobre onde podes estar a perder oportunidades.
+        Uma mentoria prática de <strong style="color:var(--primary-dark)">2 semanas</strong> para quem já tem
+        algo para vender.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-wa" id="startQuiz" type="button">
+          COMEÇAR O DIAGNÓSTICO
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <a href="#aprender" class="btn btn-ghost">
+          Ver a mentoria
+        </a>
+      </div>
+
+      <p class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Leva menos de 1 minuto · Sem compromisso
+      </p>
+    </div>
+
+    <!-- MOCK 3D COM GRÁFICO -->
+    <div class="mock-wrap" data-tilt data-parallax="0.25">
+      <span class="deco-3d a" aria-hidden="true"></span>
+      <span class="deco-3d b" aria-hidden="true"></span>
+      <span class="deco-3d c" aria-hidden="true"></span>
+
+      <div class="mock" aria-hidden="true">
+        <div class="mock-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="mock-bar-title">Painel de vendas</span>
+        </div>
+
+        <div class="mock-body">
+          <div class="mock-head">
+            <div>
+              <h4>Conversas que viraram venda</h4>
+              <p>Últimos 7 dias</p>
+            </div>
+            <div class="mock-kpi">
+              <div class="val">+42%</div>
+              <div class="lbl">Conversão</div>
+            </div>
+          </div>
+
+          <div class="chart">
+            <span class="bar b1"></span>
+            <span class="bar b2"></span>
+            <span class="bar b3"></span>
+            <span class="bar b4"></span>
+            <span class="bar b5"></span>
+            <span class="bar b6"></span>
+          </div>
+
+          <div class="chart-legend">
+            <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+          </div>
+
+          <div class="mock-footer">
+            <div class="mock-stat">
+              <div class="v">128</div>
+              <div class="l">Conversas</div>
+            </div>
+            <div class="mock-stat">
+              <div class="v">34</div>
+              <div class="l">Vendas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<div class="stats-strip" data-parallax="0.08">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="reveal">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Semanas</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Ciclos</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Temas trabalhados</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-value">30</div>
+        <div class="stat-label">Vagas limitadas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PROBLEMA ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Reconheces isto?</span>
+      <h2>Se vendes pelo WhatsApp, provavelmente já viveste isto.</h2>
+      <p>Situações que acontecem todos os dias — e que raramente têm a ver com o produto que vendes.</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-item reveal" data-parallax="0.06">
+        <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        <p>O cliente mostra interesse, mas a conversa morre sem dar em nada.</p>
+      </div>
+      <div class="problem-item reveal" data-parallax="0.09">
+        <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        <p>Perguntam o preço — e depois desaparecem sem responder mais.</p>
+      </div>
+      <div class="problem-item reveal" data-parallax="0.12">
+        <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        <p>"Vou pensar" aparece e depois nunca mais recebes mensagem.</p>
+      </div>
+      <div class="problem-item reveal" data-parallax="0.06">
+        <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        <p>Sentes que estás a falar sozinho — e a conversa perde força.</p>
+      </div>
+      <div class="problem-item reveal" data-parallax="0.09">
+        <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        <p>Quando fazes follow-up, parece que estás a incomodar.</p>
+      </div>
+      <div class="problem-item reveal" data-parallax="0.12">
+        <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        <p>Fechar a venda parece estar sempre a um passo que nunca chega.</p>
+      </div>
+    </div>
+
+    <div class="problem-conclusion reveal zoom">
+      <p>Não é falta de esforço.<br><strong>É falta de estrutura na forma como conduzes a conversa.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= O QUE SERÁ TRABALHADO ================= -->
+<section class="section" id="aprender" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">O que será trabalhado</span>
+      <h2>Todo o caminho da venda, do primeiro "olá" ao fecho</h2>
+      <p>Cada etapa trabalhada na prática, com aplicação direta ao teu caso.</p>
+    </div>
+
+    <div class="grid-3">
+      <article class="card reveal" data-tilt data-parallax="0.05">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Abordagem de potenciais clientes</h3>
+        <p>Como iniciar conversas sem parecer insistente — e fazer o cliente querer responder.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.08">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <h3>Comunicação e conversa de vendas</h3>
+        <p>A forma como conduzes a conversa define o resultado. Aprende a conduzir com clareza.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.11">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2z"/><line x1="9" y1="22" x2="15" y2="22"/></svg>
+        </div>
+        <h3>Psicologia aplicada às vendas</h3>
+        <p>Perceber como o cliente decide antes de decidir — e usar isso a teu favor.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.05">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Descoberta das necessidades</h3>
+        <p>Fazer as perguntas certas antes de apresentar a oferta. Vender é diagnosticar bem.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.08">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Apresentação da oferta e do preço</h3>
+        <p>Falar de valor antes de falar de número. Preço sem contexto é sempre caro.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.11">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Tratamento de objeções</h3>
+        <p>Responder ao "está caro" e ao "vou pensar" com segurança, sem pressionar.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.05">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Fechamento</h3>
+        <p>Conduzir a conversa até à decisão, com um timing claro para avançar.</p>
+      </article>
+
+      <article class="card reveal" data-tilt data-parallax="0.08">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </div>
+        <h3>Follow-up</h3>
+        <p>Voltar a falar sem parecer desesperado — e sem perder o timing certo.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESTRUTURA ================= -->
+<section class="section" id="estrutura" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Como está organizada</span>
+      <h2>Estrutura da mentoria</h2>
+      <p>Duas semanas, dois ciclos, numa lógica prática e progressiva.</p>
+    </div>
+
+    <div class="steps-wrap">
+      <div class="step reveal left" data-parallax="0.06">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Duração de 2 semanas</h3>
+          <p>Dividida em 2 ciclos de 1 semana cada, para consolidar cada etapa antes de avançar.</p>
+        </div>
+      </div>
+
+      <div class="step reveal left" data-parallax="0.06">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Qui · Sex · Sáb · Dom</h3>
+          <p>Encontros ao longo da semana, pensados para se encaixarem na tua rotina.</p>
+        </div>
+      </div>
+
+      <div class="step reveal left" data-parallax="0.06">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Formato: A DEFINIR</h3>
+          <p>O formato será comunicado diretamente aos inscritos.</p>
+        </div>
+      </div>
+
+      <div class="step reveal left" data-parallax="0.06">
+        <div class="step-num">4</div>
+        <div>
+          <h3>30 vagas no total</h3>
+          <p>Número limitado para garantir acompanhamento próximo a cada participante.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cycles">
+      <div class="cycle-card reveal zoom" data-tilt data-parallax="0.1">
+        <div class="cycle-num">1.º Ciclo</div>
+        <h4>Semana 1</h4>
+        <p>Base da abordagem, comunicação e descoberta das necessidades do cliente.</p>
+      </div>
+      <div class="cycle-card reveal zoom" data-tilt data-parallax="0.14">
+        <div class="cycle-num">2.º Ciclo</div>
+        <h4>Semana 2</h4>
+        <p>Oferta, objeções, fecho e follow-up — até à venda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INVESTIMENTO ================= -->
+<section class="section" id="investimento" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Investimento</span>
+      <h2>Valores transparentes</h2>
+      <p>Sem surpresas, sem custos escondidos.</p>
+    </div>
+
+    <div class="invest reveal" data-parallax="0.05">
+      <div class="invest-row">
+        <span class="label">Inscrição</span>
+        <span class="price">100 MT</span>
+      </div>
+      <div class="invest-row">
+        <span class="label">1.º ciclo (semana 1)</span>
+        <span class="price">269 MT</span>
+      </div>
+      <div class="invest-row">
+        <span class="label">2.º ciclo (semana 2)</span>
+        <span class="price">269 MT</span>
+      </div>
+
+      <div class="invest-total">
+        <span class="label">Total</span>
+        <span class="price">638 MT</span>
+      </div>
+
+      <p class="invest-note">Inscrição obrigatória para garantir a vaga · Vagas limitadas a 30 participantes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2>Ainda com dúvidas?</h2>
+      <p>Respostas diretas às perguntas mais comuns.</p>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>O que é a mentoria?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">É uma mentoria prática sobre como vender pelo WhatsApp de forma mais estratégica. Trabalhamos cada etapa do caminho da venda — da abordagem ao follow-up — com método e aplicação direta ao teu caso.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Para quem é?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Para quem já tem algo para vender e usa (ou quer usar) o WhatsApp como canal principal de vendas. Não é para quem procura resultados garantidos ou fórmulas mágicas — é para quem está disposto a trabalhar de forma estruturada.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Quanto custa?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">O valor total é de <strong>638 MT</strong>, dividido em: 1.º ciclo (269 MT) + 2.º ciclo (269 MT), mais a inscrição de 100 MT.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Quanto é a inscrição?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">A inscrição é de <strong>100 MT</strong> e é obrigatória para garantir a vaga. As vagas são limitadas a 30 participantes.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Quanto tempo dura?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">A mentoria tem a duração total de <strong>2 semanas</strong>, divididas em 2 ciclos de 1 semana cada.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Quais são os dias?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Os encontros acontecem às <strong>quintas, sextas, sábados e domingos</strong>.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Qual é o formato?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">O formato será <strong>A DEFINIR</strong> — será comunicado diretamente aos inscritos.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">
+          <span>Como faço para me inscrever?</span>
+          <span class="toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Toca no botão de WhatsApp nesta página e envia a mensagem. Receberás todas as instruções para garantir a tua vaga. <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener">Falar agora no WhatsApp →</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="cta-final reveal zoom" data-parallax="0.08">
+      <span class="eyebrow">Último passo</span>
+      <h2>Pronto para transformar o teu WhatsApp numa <span class="grad-text">máquina de vendas</span>?</h2>
+      <p>Fala diretamente comigo no WhatsApp. Recebes todas as informações e garantes a tua vaga antes que fechem.</p>
+
+      <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me."
+         target="_blank" rel="noopener" class="btn btn-wa">
+        QUERO FALAR NO WHATSAPP
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+
+      <div class="cta-help">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Não sabe onde clicar? Toque no botão acima e o WhatsApp abrirá para você enviar uma mensagem.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a href="#" class="logo">
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.93 7.93 0 0 0 3.84.98h.01a7.94 7.94 0 0 0 5.55-13.56zM12.05 18.5h-.01a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.59 6.59 0 0 1 10.24-8.16 6.55 6.55 0 0 1 1.94 4.66 6.6 6.6 0 0 1-6.58 6.59z"/></svg>
+          </span>
+          <span class="logo-text">
+            <strong>HN Mentorias</strong>
+            <small>Máquina de Vendas · WhatsApp</small>
+          </span>
+        </a>
+        <p>Uma mentoria prática de 2 semanas para quem já tem algo para vender e quer usar o WhatsApp de forma mais estratégica.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Mentoria</h4>
+        <a href="#aprender">O que vais aprender</a>
+        <a href="#estrutura">Estrutura</a>
+        <a href="#investimento">Investimento</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener">Inscrever-me</a>
+        <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener">Dúvidas</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Vagas</h4>
+        <a href="#investimento">30 vagas limitadas</a>
+        <a href="#estrutura">Início em breve</a>
+        <a href="https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me." target="_blank" rel="noopener">Garantir vaga</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> HN Mentorias · Transformar o WhatsApp numa Máquina de Vendas.</span>
+      <span>Moçambique 🇲🇿</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     QUIZ OVERLAY
+     ============================================================ -->
+<div class="quiz-overlay" id="quizOverlay" data-step="0" role="dialog" aria-modal="true" aria-label="Diagnóstico de vendas">
+  <div class="quiz-shell">
+    <div class="quiz-top">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-count" id="quizCount"><strong>01</strong> / 05</div>
+        <div class="quiz-bar"><div class="quiz-bar-fill" id="quizBar"></div></div>
+      </div>
+      <button class="quiz-close" id="closeQuiz" aria-label="Fechar diagnóstico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="quiz-content" id="quizContent"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const WA_LINK = "https://wa.me/258833063485?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Transformar%20o%20WhatsApp%20numa%20M%C3%A1quina%20de%20Vendas%20e%20quero%20inscrever-me.";
+
+/* ============================================================
+   ANO
+   ============================================================ */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   PREFERÊNCIAS
+   ============================================================ */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+const isMobile = window.innerWidth < 900;
+
+/* ============================================================
+   HEADER SCROLL
+   ============================================================ */
+const header = document.getElementById('siteHeader');
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  header.classList.toggle('scrolled', y > 20);
+  lastScroll = y;
+}, { passive: true });
+
+/* ============================================================
+   MENU MOBILE
+   ============================================================ */
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+
+burger.addEventListener('click', () => {
+  const open = burger.classList.toggle('open');
+  navLinks.classList.toggle('show', open);
+  burger.setAttribute('aria-expanded', open);
+});
+
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    navLinks.classList.remove('show');
+    burger.setAttribute('aria-expanded', false);
+  });
+});
+
+/* ============================================================
+   REVEAL ON SCROLL
+   ============================================================ */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = `${(i % 4) * 80}ms`;
+  io.observe(el);
+});
+
+/* ============================================================
+   PARALLAX PREMIUM — múltiplas camadas + RAF
+   ============================================================ */
+if (!reduceMotion && !isCoarse){
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  let ticking = false;
+
+  // Guarda posições base
+  parallaxEls.forEach(el => {
+    const speed = parseFloat(el.dataset.parallax) || 0.1;
+    el.dataset.pspeed = speed;
+  });
+
+  function updateParallax(){
+    const vh = window.innerHeight;
+    parallaxEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      // Só aplica quando o elemento está próximo do viewport
+      if (rect.bottom < -200 || rect.top > vh + 200) return;
+
+      const speed = parseFloat(el.dataset.pspeed);
+      // Centro relativo: -1 (fora acima) a 1 (fora abaixo)
+      const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
+      const offset = -progress * speed * 100;
+
+      // Só aplica em elementos que não são tilt (para não conflitar)
+      if (!el.hasAttribute('data-tilt')){
+        el.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
+      } else {
+        // Elementos com tilt: usar variável CSS custom
+        el.style.setProperty('--py', offset.toFixed(2) + 'px');
+      }
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking){
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateParallax, { passive: true });
+  updateParallax();
+}
+
+/* ============================================================
+   3D TILT (desktop only)
+   ============================================================ */
+if (!isCoarse && !reduceMotion){
+  document.querySelectorAll('[data-tilt]').forEach(el => {
+    const maxTilt = el.classList.contains('mock-wrap') ? 6 : 8;
+    const scale = 1.02;
+
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rx = ((y - cy) / cy) * -maxTilt;
+      const ry = ((x - cx) / cx) * maxTilt;
+
+      const target = el.querySelector('.mock');
+      if (target){
+        target.style.transform = `rotateY(${-8 + ry}deg) rotateX(${6 + rx}deg) translateZ(20px)`;
+      } else {
+        const py = el.style.getPropertyValue('--py') || '0px';
+        el.style.transform = `translate3d(0, ${py}, 0) perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`;
+      }
+    });
+
+    el.addEventListener('mouseleave', () => {
+      const target = el.querySelector('.mock');
+      if (target){
+        target.style.transform = '';
+      } else {
+        const py = el.style.getPropertyValue('--py') || '0px';
+        el.style.transform = `translate3d(0, ${py}, 0)`;
+      }
+    });
+  });
+}
+
+/* ============================================================
+   QUIZ — PERGUNTAS E RESULTADO
+   ============================================================ */
+const QUIZ = [
+  {
+    q: "Quando alguém demonstra interesse no teu produto, o que normalmente acontece?",
+    options: [
+      { text: "Respondo rápido, mas depois a conversa morre.", tag: "followup" },
+      { text: "Demoro a responder ou não sei bem o que dizer.", tag: "abordagem" },
+      { text: "A pessoa mostra interesse e desaparece sem dar sinal.", tag: "conversa" },
+      { text: "A conversa avança, mas raramente termina em venda.", tag: "fecho" }
+    ]
+  },
+  {
+    q: "Quando o cliente pergunta o preço, como costumas responder?",
+    options: [
+      { text: "Digo o preço direto e espero pela reação.", tag: "conversa" },
+      { text: "Fico com receio de afastar e enrolo ou dou desconto.", tag: "objecao" },
+      { text: "Explico o valor antes de falar do preço.", tag: "conversa" },
+      { text: "Depois do preço, perco o controlo da conversa.", tag: "fecho" }
+    ]
+  },
+  {
+    q: "O que acontece quando o cliente diz “vou pensar”?",
+    options: [
+      { text: "Fico sem saber o que responder a seguir.", tag: "objecao" },
+      { text: "Deixo passar e raramente volto a falar.", tag: "followup" },
+      { text: "Envio follow-up, mas sinto que estou a incomodar.", tag: "followup" },
+      { text: "Perco o timing e o cliente esfria.", tag: "fecho" }
+    ]
+  },
+  {
+    q: "Qual é a tua maior dificuldade ao vender pelo WhatsApp?",
+    options: [
+      { text: "Começar conversas sem parecer insistente.", tag: "abordagem" },
+      { text: "Conduzir a conversa até ao fecho.", tag: "fecho" },
+      { text: "Lidar com objeções e indecisão.", tag: "objecao" },
+      { text: "Fazer follow-up sem parecer desesperado.", tag: "followup" }
+    ]
+  },
+  {
+    q: "O que mais gostarias de melhorar nas tuas vendas?",
+    options: [
+      { text: "Fechar mais vendas sem parecer pressionar.", tag: "fecho" },
+      { text: "Ter conversas mais naturais e estratégicas.", tag: "conversa" },
+      { text: "Sentir-me confiante a falar de preço.", tag: "objecao" },
+      { text: "Criar um processo que funcione sempre.", tag: "abordagem" }
+    ]
+  }
+];
+
+const RESULTS = {
+  abordagem: "Talvez o desafio não esteja em ter mais contactos. Pode estar na forma como inicias a conversa — e em como fazes o cliente sentir que vale a pena responder.",
+  conversa: "Talvez o problema não seja apenas conseguir pessoas interessadas. Pode estar na forma como a conversa é conduzida depois do primeiro “olá”.",
+  objecao: "Talvez o cliente não esteja a dizer “não”. Pode estar à espera que alguém conduza a decisão com clareza — especialmente quando o preço entra na conversa.",
+  fecho: "Talvez não falte interesse. Pode faltar estrutura na forma como a conversa caminha até ao fecho — e um timing claro para avançar.",
+  followup: "Talvez o cliente não tenha ido embora. Pode ter apenas ficado sem um motivo claro para voltar — e o follow-up certo pode mudar isso."
+};
+
+let currentStep = 0;
+let answers = [];
+let lockClick = false;
+
+const overlay = document.getElementById('quizOverlay');
+const content = document.getElementById('quizContent');
+const countEl = document.getElementById('quizCount');
+const barEl = document.getElementById('quizBar');
+const startBtn = document.getElementById('startQuiz');
+const closeBtn = document.getElementById('closeQuiz');
+
+function openQuiz(){
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  resetQuiz();
+  renderQuestion(0);
+}
+function closeQuizFn(){
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+startBtn.addEventListener('click', openQuiz);
+closeBtn.addEventListener('click', closeQuizFn);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && overlay.classList.contains('open')) closeQuizFn();
+});
+
+function resetQuiz(){
+  currentStep = 0;
+  answers = [];
+  lockClick = false;
+  overlay.dataset.step = '0';
+  updateProgress(0);
+}
+
+function updateProgress(step){
+  const n = String(Math.min(step + 1, QUIZ.length)).padStart(2,'0');
+  countEl.innerHTML = `<strong>${n}</strong> / 0${QUIZ.length}`;
+  barEl.style.width = ((step) / QUIZ.length) * 100 + '%';
+}
+
+function renderQuestion(index){
+  currentStep = index;
+  overlay.dataset.step = String(index);
+  updateProgress(index);
+
+  const item = QUIZ[index];
+  const letters = ['A','B','C','D'];
+
+  const view = document.createElement('div');
+  view.className = 'q-view active';
+  view.innerHTML = `
+    <div class="q-num">Pergunta ${String(index+1).padStart(2,'0')}</div>
+    <h2 class="q-text">${item.q}</h2>
+    <div class="q-options">
+      ${item.options.map((opt,i)=>`
+        <button class="q-option" type="button" data-idx="${i}" data-tag="${opt.tag}">
+          <span class="letter">${letters[i]}</span>
+          <span>${opt.text}</span>
+          <svg class="check-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  content.innerHTML = '';
+  content.appendChild(view);
+
+  view.querySelectorAll('.q-option').forEach(btn => {
+    btn.addEventListener('click', () => selectOption(btn, view));
+  });
+}
+
+function selectOption(btn, view){
+  if (lockClick) return;
+  lockClick = true;
+
+  view.querySelectorAll('.q-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  answers[currentStep] = btn.dataset.tag;
+
+  if (navigator.vibrate) navigator.vibrate(12);
+
+  setTimeout(() => {
+    lockClick = false;
+    if (currentStep < QUIZ.length - 1){
+      view.style.transition = 'opacity .35s ease, transform .35s ease';
+      view.style.opacity = '0';
+      view.style.transform = 'translateY(-18px)';
+      setTimeout(() => renderQuestion(currentStep + 1), 320);
+    } else {
+      updateProgress(QUIZ.length);
+      barEl.style.width = '100%';
+      setTimeout(showResult, 380);
+    }
+  }, 420);
+}
+
+function computeResult(){
+  const counts = {};
+  answers.forEach(tag => { counts[tag] = (counts[tag]||0) + 1; });
+  let top = null, max = 0;
+  for (const tag of Object.keys(counts)){
+    if (counts[tag] > max){ max = counts[tag]; top = tag; }
+  }
+  return top || 'conversa';
+}
+
+function showResult(){
+  overlay.dataset.step = 'result';
+  const top = computeResult();
+  const msg = RESULTS[top];
+
+  const view = document.createElement('div');
+  view.className = 'result-view active';
+  view.innerHTML = `
+    <div class="result-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+
+    <h2>Agora ficou mais claro.</h2>
+
+    <p class="result-msg">${msg}</p>
+
+    <div class="result-flow-label">O caminho completo</div>
+    <div class="result-flow">
+      <span class="flow-step">ABORDAGEM</span><span class="flow-sep">→</span>
+      <span class="flow-step">CONVERSA</span><span class="flow-sep">→</span>
+      <span class="flow-step">NECESSIDADE</span><span class="flow-sep">→</span>
+      <span class="flow-step">OFERTA</span><span class="flow-sep">→</span>
+      <span class="flow-step">OBJEÇÃO</span><span class="flow-sep">→</span>
+      <span class="flow-step">FOLLOW-UP</span><span class="flow-sep">→</span>
+      <span class="flow-step">VENDA</span>
+    </div>
+
+    <p class="result-conclusion">É exatamente isso que trabalhamos na <span class="grad-text">mentoria</span>.</p>
+
+    <div class="result-actions">
+      <a href="${WA_LINK}" target="_blank" rel="noopener" class="btn btn-wa">
+        QUERO FALAR NO WHATSAPP
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <button class="result-continue" id="continueBtn" type="button">
+        Ver a mentoria completa
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+  `;
+
+  content.innerHTML = '';
+  content.appendChild(view);
+
+  const steps = view.querySelectorAll('.flow-step, .flow-sep');
+  steps.forEach((el,i) => {
+    setTimeout(() => el.classList.add('on'), 220 + i * 75);
+  });
+
+  document.getElementById('continueBtn').addEventListener('click', () => {
+    closeQuizFn();
+    setTimeout(() => {
+      document.getElementById('aprender').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 260);
+  });
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn = item.querySelector('.faq-q');
+  const ans = item.querySelector('.faq-a');
+  btn.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(o => {
+      o.classList.remove('open');
+      o.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if (!isOpen){
+      item.classList.add('open');
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+    }
+  });
+});
+
+/* ============================================================
+   CANVAS DE FUNDO — partículas conectadas
+   ============================================================ */
+(function initCanvas(){
+  if (reduceMotion) return;
+  const canvas = document.getElementById('bgCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d', { alpha: true });
+
+  let w, h, dpr;
+  let particles = [];
+  let mouse = { x: -9999, y: -9999 };
+  let rafId = null;
+  let paused = false;
+
+  const isSmall = window.innerWidth < 768;
+  const PARTICLE_COUNT = isSmall ? 22 : 55;
+  const MAX_DIST = isSmall ? 110 : 150;
+  const MOUSE_RADIUS = 140;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth = window.innerWidth;
+    h = canvas.clientHeight = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    buildParticles();
+  }
+
+  function buildParticles(){
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++){
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.6 + 0.8,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function step(){
+    if (paused) { rafId = null; return; }
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Atualiza posições
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.phase += 0.01;
+
+      // Wrap
+      if (p.x < -20) p.x = w + 20;
+      if (p.x > w + 20) p.x = -20;
+      if (p.y < -20) p.y = h + 20;
+      if (p.y > h + 20) p.y = -20;
+
+      // Interação com o rato — atração suave
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < MOUSE_RADIUS && dist > 0.001){
+        const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.04;
+        p.vx += (dx / dist) * force;
+        p.vy += (dy / dist) * force;
+      }
+
+      // Limita velocidade
+      const speed = Math.hypot(p.vx, p.vy);
+      if (speed > 1.2){
+        p.vx = (p.vx / speed) * 1.2;
+        p.vy = (p.vy / speed) * 1.2;
+      }
+
+      // Amortecimento leve
+      p.vx *= 0.995;
+      p.vy *= 0.995;
+    });
+
+    // Ligações entre partículas
+    for (let i = 0; i < particles.length; i++){
+      const a = particles[i];
+      for (let j = i + 1; j < particles.length; j++){
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        if (d < MAX_DIST){
+          const alpha = (1 - d / MAX_DIST) * 0.35;
+          ctx.strokeStyle = `rgba(37,211,102,${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Desenha partículas
+    particles.forEach(p => {
+      const pulse = 0.75 + Math.sin(p.phase) * 0.25;
+      const dxm = mouse.x - p.x;
+      const dym = mouse.y - p.y;
+      const dm = Math.hypot(dxm, dym);
+      const near = dm < MOUSE_RADIUS ? (1 - dm / MOUSE_RADIUS) : 0;
+
+      // Halo
+      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6);
+      grad.addColorStop(0, `rgba(37,211,102,${(0.35 + near * 0.5) * pulse})`);
+      grad.addColorStop(1, 'rgba(37,211,102,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Núcleo
+      ctx.fillStyle = `rgba(18,140,126,${0.5 + near * 0.4})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    rafId = requestAnimationFrame(step);
+  }
+
+  function start(){
+    if (!rafId) rafId = requestAnimationFrame(step);
+  }
+  function stop(){
+    if (rafId){ cancelAnimationFrame(rafId); rafId = null; }
+  }
+
+  // Rato
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999; mouse.y = -9999;
+  });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches.length){
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  // Pausa quando a aba não está visível
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden){ paused = true; stop(); }
+    else { paused = false; start(); }
+  });
+
+  // Pausa quando o quiz está aberto (poupa CPU)
+  const overlayObserver = new MutationObserver(() => {
+    const open = document.getElementById('quizOverlay').classList.contains('open');
+    if (open){ paused = true; stop(); }
+    else { paused = false; start(); }
+  });
+  overlayObserver.observe(document.getElementById('quizOverlay'), { attributes: true, attributeFilter: ['class'] });
+
+  window.addEventListener('resize', () => {
+    resize();
+  }, { passive: true });
+
+  resize();
+  start();
+})();
+</script>
 </body>
 </html>
